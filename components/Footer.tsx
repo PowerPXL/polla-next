@@ -27,7 +27,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t pt-6 text-center text-sm text-zinc-500">
-          © {new Date().getFullYear()} Drivs av Pavent.
+          © {new Date().getFullYear()} Drivs avPavent.
         </div>
       </div>
     </footer>
