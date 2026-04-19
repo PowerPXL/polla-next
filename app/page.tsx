@@ -9,7 +9,7 @@ const dummyPolls = [
     options: [
       { id: "a", text: "Magdalena Andersson (S)", votes: 15 },
       { id: "b", text: "Ulf Kristersson (M)", votes: 22 },
-      { id: "c", text: "Jimmie Åkesson (SD)", votes: 3 },
+      { id: "c", text: "Jimmie Åkesson (SD)", votes: 33 },
       { id: "d", text: "Ebba Busch (KD)", votes: 3 },
       { id: "e", text: "Elisabeth Thand Ringqvist (C)", votes: 3 },
       { id: "f", text: "Amanda Lind/Daniel Helldén (MP)", votes: 3 },
@@ -30,12 +30,11 @@ const dummyPolls = [
   },
   {
     id: "3",
-    title: "Vilken film är bäst?",
+    title: "Vilken valuta vill du se i Sverige?",
     slug: "movie-poll",
     options: [
-      { id: "a", text: "Vilken valuta vill du se i Sverige", votes: 41 },
-      { id: "b", text: "EURO", votes: 33 },
-      { id: "c", text: "SEK", votes: 52 },
+      { id: "a", text: "EURO", votes: 33 },
+      { id: "b", text: "SEK", votes: 52 },
     ],
     commentsCount: 28,
   },
