@@ -3,13 +3,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-type OAuthProvider = "google" | "twitter";
-
-export async function signInWithOAuth(provider: OAuthProvider) {
+export async function signInWithGoogle() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider,
+    provider: "google",
     options: {
       redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
     },
