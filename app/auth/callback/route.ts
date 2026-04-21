@@ -5,13 +5,16 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
 
-  console.log("Callback hit, code:", code);
-
   if (code) {
     const supabase = await createClient();
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-    console.log("Exchange result:", data, error);
+    await supabase.auth.exchangeCodeForSession(code);
   }
 
   return NextResponse.redirect(`${origin}/`);
+}
+
+export async function POST() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  return NextResponse.redirect("https://www.polla.se/");
 }
