@@ -5,18 +5,32 @@ import { redirect } from 'next/navigation'
 export async function createPoll(formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-console.log('USER:', user?.id ?? 'anon')
+
   const title = formData.get('title') as string
   const options = formData.getAll('options') as string[]
 
   if (!title || options.length < 2) return
 
-  // Skapa slug från titel
-  const slug = title
+  // Skapa bas-slug från titel
+  const baseSlug = title
     .toLowerCase()
     .replace(/å/g, 'a').replace(/ä/g, 'a').replace(/ö/g, 'o')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
+
+  // Kolla om slug redan finns, lägg till siffra om den gör det
+  let slug = baseSlug
+  let counter = 1
+  while (true) {
+    const { data: existing } = await supabase
+      .from('poll')
+      .select('poll_id')
+      .eq('slug', slug)
+      .maybeSingle()
+    if (!existing) break
+    slug = `${baseSlug}-${counter}`
+    counter++
+  }
 
   // Skapa poll
   const { data: poll, error } = await supabase
@@ -28,9 +42,6 @@ console.log('USER:', user?.id ?? 'anon')
     })
     .select('poll_id')
     .single()
-
-    console.log('POLL ERROR:', JSON.stringify(error))
-    console.log('POLL DATA:', JSON.stringify(poll))
 
   if (error || !poll) throw new Error(error?.message ?? 'Kunde inte skapa poll')
 
