@@ -7,12 +7,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { data: { user } } = await supabase.auth.getUser()
 
   // Hämta poll
-  const { data: poll } = await supabase
-    .from('poll')
-    .select('*')
-    .eq('slug', params.slug)
-    .eq('is_active', true)
-    .single()
+const { data: poll } = await supabase
+  .from('poll')
+  .select('*')
+  .eq('slug', params.slug)
+  .eq('is_active', true)
+  .maybeSingle()
 
   if (!poll) notFound()
 
