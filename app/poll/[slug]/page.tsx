@@ -2,15 +2,16 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import PollView from './PollView'
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  console.log('SLUG:', params.slug)
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  console.log('SLUG:', slug)
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   const { data: poll } = await supabase
     .from('poll')
     .select('*')
-    .eq('slug', params.slug)
+    .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle()
 
