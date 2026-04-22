@@ -1,5 +1,6 @@
 // Header.tsx - fortfarande async server component
 import { createClient } from "@/lib/supabase/server"
+import MobileMenu from "./MobileHeader"  // enda splitting du behöver
 import Link from "next/link"
 import MobileHeader from "./MobileHeader"
 
