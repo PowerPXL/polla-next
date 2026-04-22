@@ -100,45 +100,44 @@ export default function ContentCard({
               </div>
                         
 {/* Footer */}
-<div className="pt-4 border-t border-gray-100 space-y-2">
+            <div className="pt-4 border-t border-gray-100 space-y-2">
 
-  {/* Slug */}
-  <Link
-    href={`/poll/${item.slug}`}
-    className="block text-[10px] text-gray-300 italic truncate font-mono cursor-pointer"
-  >
-    /{item.slug}
-  </Link>
+{/* Slug */}
+          <Link
+            href={`/poll/${item.slug}`}
+            className="block text-[10px] text-gray-300 italic truncate font-mono cursor-pointer"
+            >
+            /{item.slug}
+          </Link>
+{/* Kommentar & Dela */}
+          <div className="flex items-center justify-between">
 
-  <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 text-sm text-gray-500 cursor-pointer">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" />
+              </svg>
+              <span>{item.commentsCount} kommentarer</span>
+          </div>
 
-    <div className="flex items-center space-x-2 text-sm text-gray-500 cursor-pointer">
-      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" />
-      </svg>
-      <span>{item.commentsCount} kommentarer</span>
-    </div>
-
-    <button className="flex items-center space-x-2 text-xs text-gray-500 p-1 -m-1 rounded cursor-pointer">
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M4 12v.01M4 12a2 2 0 104 0m-4 0a2 2 0 014 0m10-6v.01M18 6a2 2 0 104 0m-4 0a2 2 0 014 0m0 12v.01M18 18a2 2 0 104 0m-4 0a2 2 0 014 0M8.7 13.3l6.6 3.4m0-9.4l-6.6 3.4"
-        />
-      </svg>
-      <span>Dela</span>
-    </button>
-
-  </div>
-</div>
+        <button className="flex items-center space-x-2 text-xs text-gray-500 p-1 -m-1 rounded cursor-pointer">
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4 12v.01M4 12a2 2 0 104 0m-4 0a2 2 0 014 0m10-6v.01M18 6a2 2 0 104 0m-4 0a2 2 0 014 0m0 12v.01M18 18a2 2 0 104 0m-4 0a2 2 0 014 0M8.7 13.3l6.6 3.4m0-9.4l-6.6 3.4"
+            />
+          </svg>
+          <span>Dela</span>
+        </button>
             </div>
+           </div>
+         </div>
           );
         })}
       </div>
