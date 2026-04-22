@@ -14,7 +14,9 @@ const { data: poll } = await supabase
   .eq('is_active', true)
   .maybeSingle()
 
-  if (!poll) notFound()
+console.log('POLL RESULT:', JSON.stringify(poll))
+
+if (!poll) notFound()
 
   // Hämta alternativ
   const { data: options } = await supabase
