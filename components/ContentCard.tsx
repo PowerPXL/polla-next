@@ -98,6 +98,25 @@ export default function ContentCard({
                   );
                 })}
               </div>
+
+{/* Rösta */}
+            <button
+              type="button"
+              disabled={!selectedOption}
+              className={`w-full p-3 rounded-xl border text-sm font-medium transition-all
+                ${
+                  selectedOption
+                    ? "bg-blue-500 text-white border-blue-500 cursor-pointer"
+                    : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+                }`}
+              onClick={() => {
+                if (!selectedOption) return;
+                console.log("vote:", item.id, selectedOption);
+                // här kopplar du API / server action senare
+              }}
+            >
+              Rösta
+            </button>              
                         
 {/* Footer */}
             <div className="pt-4 border-t border-gray-100 space-y-2">
