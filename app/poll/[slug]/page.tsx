@@ -6,6 +6,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
+  export default async function Page({ params }: { params: { slug: string } }) {
+  console.log('SLUG:', params.slug)
+  const supabase = await createClient()
+
   // Hämta poll
 const { data: poll } = await supabase
   .from('poll')
