@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 export async function createPoll(formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-
+console.log('USER:', user?.id ?? 'anon')
   const title = formData.get('title') as string
   const options = formData.getAll('options') as string[]
 
