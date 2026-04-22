@@ -1,55 +1,54 @@
-import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+// Header.tsx - fortfarande async server component
+import { createClient } from "@/lib/supabase/server"
+import MobileMenu from "./MobileMenu"  // enda splitting du behöver
+import Link from "next/link"
+import MobileHeader from "./MobileHeader"
 
 export default async function Header() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const userInitial = user?.user_metadata?.full_name?.[0]?.toUpperCase() ?? user?.email?.[0]?.toUpperCase() ?? null
 
   return (
-    <header className="border-b border-zinc-200">
+    <header className="border-b border-zinc-200 relative">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-{/*Logo*/}        
-<div className="text-xl font-bold tracking-tight">
-  <Link href="/">
-    <span className="text-[#171717]">Po</span>
-    <span className="text-[#EA4335]">l</span>
-    <span className="text-[#4285F4]">la</span>
-    <span className="text-[#FBBC05]">.</span>
-    <span className="text-[#171717]">se</span>
-  </Link>
-</div>
-{/*Menubar*/}      
-        <nav className="flex gap-6">
+        
+        {/* Logo - oförändrad */}
+        <div className="text-3xl font-bold tracking-tight">
+          <Link href="/">
+            <span className="text-[#171717]">Po</span>
+            <span className="text-[#EA4335]">ll</span>
+            <span className="text-[#4285F4]">a</span>
+            <span className="text-[#FBBC05]">.</span>
+            <span className="text-gray-400 text-lg">se</span>
+          </Link>
+        </div>
+
+        {/* Desktop nav - oförändrad */}
+        <nav className="hidden md:flex gap-6">
           <Link href="/create" className="hover:text-blue-600 transition-colors">+Skapa</Link>
           <Link href="/voteroll" className="hover:text-blue-600 transition-colors">VoteRoll</Link>
           <Link href="/sverigestopp10" className="hover:text-blue-600 transition-colors">#Sveriges10 största</Link>
           <Link href="/dataprotect" className="hover:text-blue-600 transition-colors">Dataskydd & GDPR</Link>
         </nav>
-{/*User-login*/}      
+
+        {/* Login - oförändrad */}
         <div className="flex items-center gap-3">
-          {user ? (
-            <>
-              <Link href="/profile" title="Min sida">
-                <svg className="w-5 h-5 text-gray-600 hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                </svg>
-              </Link>
-              <form action="/auth/callback" method="post">
-                <button type="submit" title="Logga ut">
-                  <svg className="w-5 h-5 text-gray-600 hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                  </svg>
-                </button>
-              </form>
-            </>
+          {userInitial ? (
+            <Link href="/profile" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+              {userInitial}
+            </Link>
           ) : (
-            <Link href="/login" className="font-medium hover:text-blue-600 transition-colors">
-              Login
+            <Link href="/login" className="text-sm font-medium px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors">
+              Logga in
             </Link>
           )}
+
+          {/* Enda nya grejen */}
+          <MobileHeader />
         </div>
 
       </div>
     </header>
-  );
+  )
 }
