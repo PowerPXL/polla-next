@@ -29,6 +29,9 @@ export async function createPoll(formData: FormData) {
     .select('poll_id')
     .single()
 
+    console.log('POLL ERROR:', JSON.stringify(error))
+    console.log('POLL DATA:', JSON.stringify(poll))
+
   if (error || !poll) throw new Error(error?.message ?? 'Kunde inte skapa poll')
 
   // Skapa svarsalternativ
