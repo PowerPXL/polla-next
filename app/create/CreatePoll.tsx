@@ -23,7 +23,7 @@ export default function CreatePoll({ isLoggedIn }: { isLoggedIn: boolean }) {
 
       {!isLoggedIn && (
         <div className="text-sm text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">
-          Du skapar som gäst. <a href="/login" className="text-blue-600 hover:underline">Logga in</a> för att hantera dina polls.
+          Du är anonym. <a href="/login" className="text-blue-600 hover:underline">Logga in</a> om du vill redigera polls.
         </div>
       )}
 

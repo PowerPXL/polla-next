@@ -13,7 +13,7 @@ export default async function Page() {
   return (
     <main className="mx-auto max-w-xl px-6 py-12">
       <h1 className="mb-2 text-2xl font-bold">+ Skapa</h1>
-      <p className="text-gray-500 text-sm mb-8">Frågor och svar – gratis, utan inlogg.</p>
+      <p className="text-gray-500 text-sm mb-8"></p>
       <CreatePollForm isLoggedIn={!!user} />
     </main>
   )
