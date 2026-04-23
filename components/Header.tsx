@@ -15,7 +15,7 @@ export default async function Header() {
         {/* Logo - oförändrad */}
         <div className="text-3xl font-bold tracking-tight">
           <Link href="/">
-            <span className="text-[#171717]">Po</span>
+            <span className="text-[#374151]">Po</span>
             <span className="text-[#EA4335]">ll</span>
             <span className="text-[#4285F4]">a</span>
             <span className="text-[#FBBC05]">.</span>

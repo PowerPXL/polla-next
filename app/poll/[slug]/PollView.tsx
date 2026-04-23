@@ -19,6 +19,7 @@ type Poll = {
   title: string
   slug: string
   total_votes: number
+  category: string | null
 }
 
 export default function PollView({
@@ -54,6 +55,12 @@ export default function PollView({
       {/* Poll */}
       <div className="space-y-4">
         <h1 className="text-2xl font-bold text-gray-900">{poll.title}</h1>
+
+        {poll.category && (
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-white">
+            {poll.category}
+          </span>
+        )}
         <p className="text-sm text-gray-400">{total} röster</p>
 
         <div className="space-y-2">
@@ -107,7 +114,6 @@ export default function PollView({
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-gray-900">Kommentarer</h2>
 
-        {/* Formulär */}
         <form
           action={async (formData) => {
             await addComment(poll.poll_id, poll.slug, formData)
@@ -130,7 +136,6 @@ export default function PollView({
           </button>
         </form>
 
-        {/* Lista */}
         {comments.length === 0 && (
           <p className="text-sm text-gray-400">Inga kommentarer än.</p>
         )}

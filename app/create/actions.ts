@@ -8,6 +8,7 @@ export async function createPoll(formData: FormData) {
 
   const title = formData.get('title') as string
   const options = formData.getAll('options') as string[]
+  const category = formData.get('category') as string | null
 
   if (!title || options.length < 2) return
 
@@ -38,6 +39,7 @@ export async function createPoll(formData: FormData) {
     .insert({
       title,
       slug,
+      category: category || null,
       created_by: user?.id ?? null,
     })
     .select('poll_id')
