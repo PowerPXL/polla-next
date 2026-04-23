@@ -101,6 +101,7 @@ export default function ContentCard({
 
 {/* Rösta */}
             <button
+              suppressHydrationWarning
               type="button"
               disabled={!selectedOption}
               className={`w-full p-3 rounded-xl border text-sm font-medium transition-all
