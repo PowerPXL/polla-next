@@ -21,7 +21,7 @@ export default function RootLayout({
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">
-            <div className="mx-auto w-full max-w-5xl px-4 py-8">
+            <div className="mx-auto w-full max-w-5xl px-4 py-4">
               <div className="flex flex-col gap-10 min-h-[60vh]">
                 {children}
               </div>

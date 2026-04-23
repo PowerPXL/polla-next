@@ -1,19 +1,17 @@
 export default function ContentBlock({
   title,
-  text,
+  children,
 }: {
   title: string;
-  text: string;
+  children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-xl border p-8">
-      <h2 className="text-xl font-bold mb-2">
-        {title}
-      </h2>
+    <section className="bg-white-100 rounded-2xl border border-gray-300 p-6 my-8">
+      <h2 className="text-xl font-bold mb-2">{title}</h2>
 
-      <p className="leading-7 text-gray-600">
-        {text}
-      </p>
+      <div className="leading-7 text-gray-600 space-y-4">
+        {children}
+      </div>
     </section>
   );
 }
