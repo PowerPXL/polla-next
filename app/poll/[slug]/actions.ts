@@ -6,9 +6,6 @@ export async function vote(pollId: number, optId: number, slug: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // DEBUG - ta bort
-  console.log('vote action user:', user?.id ?? 'NULL')
-
   if (!user) return { error: 'not_logged_in' }
 
   const { data: existing } = await supabase
@@ -25,9 +22,6 @@ export async function vote(pollId: number, optId: number, slug: string) {
     opt_id: optId,
     user_id: user.id,
   })
-
-  // DEBUG - ta bort
-  console.log('insert error:', insertError)
 
   await supabase.rpc('increment_vote', { opt_id_input: optId, poll_id_input: pollId })
 
