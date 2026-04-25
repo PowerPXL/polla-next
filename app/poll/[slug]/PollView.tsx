@@ -169,10 +169,6 @@ export default function PollView({
             )
           })}
         </div>
-        [/* Debug */]
-          <p className="text-xs text-red-500">userId: {userId ?? 'NULL'}</p>
-        [/* Debug */]
-
         {/* Rösta */}
         {!hasVoted && (
           userId ? (

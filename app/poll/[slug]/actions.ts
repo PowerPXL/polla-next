@@ -6,9 +6,11 @@ export async function vote(pollId: number, optId: number, slug: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
+  // DEBUG - ta bort
+  console.log('vote action user:', user?.id ?? 'NULL')
+
   if (!user) return { error: 'not_logged_in' }
 
-  // kolla om användaren redan röstat
   const { data: existing } = await supabase
     .from('poll_votes')
     .select('vote_id')
@@ -18,11 +20,14 @@ export async function vote(pollId: number, optId: number, slug: string) {
 
   if (existing) return { error: 'already_voted' }
 
-  await supabase.from('poll_votes').insert({
+  const { error: insertError } = await supabase.from('poll_votes').insert({
     poll_id: pollId,
     opt_id: optId,
     user_id: user.id,
   })
+
+  // DEBUG - ta bort
+  console.log('insert error:', insertError)
 
   await supabase.rpc('increment_vote', { opt_id_input: optId, poll_id_input: pollId })
 
