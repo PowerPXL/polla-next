@@ -181,7 +181,7 @@ export default function PollView({
             </button>
           ) : (
             
-              < a href="/login"
+              <a href="/login"
               className={`w-full py-3 rounded-xl text-sm font-medium text-center block transition-all
                 ${selected ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none'}`}
             >
