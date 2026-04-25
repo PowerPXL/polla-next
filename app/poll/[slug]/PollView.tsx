@@ -109,12 +109,14 @@ export default function PollView({
   const total = options.reduce((sum, o) => sum + o.vote_count, 0)
 
   const handleVote = async () => {
-    if (!selected || hasVoted) return
-    setLoading(true)
-    await vote(poll.poll_id, selected, poll.slug)
-    setHasVoted(true)
-    setLoading(false)
-  }
+  console.log('handleVote triggered', { selected, hasVoted })
+  if (!selected || hasVoted) return
+  setLoading(true)
+  const result = await vote(poll.poll_id, selected, poll.slug)
+  console.log('vote result', result)
+  setHasVoted(true)
+  setLoading(false)
+}
 
   return (
     <div className="space-y-8 max-w-3xl mx-auto">
