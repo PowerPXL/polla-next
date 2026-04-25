@@ -116,6 +116,7 @@ export default function PollView({
   console.log('vote result', result)
   setHasVoted(true)
   setLoading(false)
+  window.location.reload()
 }
 
   return (
