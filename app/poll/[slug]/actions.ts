@@ -6,14 +6,24 @@ export async function vote(pollId: number, optId: number, slug: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Anonym röst – kolla inte dubletter (kan byggas ut med cookie senare)
+  if (!user) return { error: 'not_logged_in' }
+
+  // kolla om användaren redan röstat
+  const { data: existing } = await supabase
+    .from('poll_votes')
+    .select('vote_id')
+    .eq('poll_id', pollId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (existing) return { error: 'already_voted' }
+
   await supabase.from('poll_votes').insert({
     poll_id: pollId,
     opt_id: optId,
-    user_id: user?.id ?? null,
+    user_id: user.id,
   })
 
-  // Öka vote_count på alternativet
   await supabase.rpc('increment_vote', { opt_id_input: optId, poll_id_input: pollId })
 
   revalidatePath(`/poll/${slug}`)

@@ -22,6 +22,73 @@ type Poll = {
   category: string | null
 }
 
+const COLORS = ['#EA4335', '#4285F4', '#FBBC05', '#374151']
+const getColor = (i: number) => COLORS[i] ?? '#374151'
+
+function DonutChart({ options }: { options: Option[] }) {
+  const total = options.reduce((sum, o) => sum + o.vote_count, 0)
+  if (total === 0) return <p className="text-sm text-gray-400 text-center">Inga röster än</p>
+
+  const size = 200
+  const radius = 80
+  const cx = size / 2
+  const cy = size / 2
+  const strokeWidth = 32
+
+  let cumulative = 0
+  const slices = options.map((opt, i) => {
+    const pct = opt.vote_count / total
+    const start = cumulative
+    cumulative += pct
+    return { pct, start, color: getColor(i), title: opt.title }
+  })
+
+  const polarToCartesian = (pct: number) => {
+    const angle = pct * 2 * Math.PI - Math.PI / 2
+    return {
+      x: cx + radius * Math.cos(angle),
+      y: cy + radius * Math.sin(angle),
+    }
+  }
+
+  const describeArc = (start: number, end: number) => {
+    const s = polarToCartesian(start)
+    const e = polarToCartesian(end)
+    const largeArc = end - start > 0.5 ? 1 : 0
+    return `M ${s.x} ${s.y} A ${radius} ${radius} 0 ${largeArc} 1 ${e.x} ${e.y}`
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <svg width={size} height={size}>
+        {slices.map((slice, i) => (
+          <path
+            key={i}
+            d={describeArc(slice.start, slice.start + slice.pct)}
+            fill="none"
+            stroke={slice.color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="butt"
+          />
+        ))}
+        <text x={cx} y={cy} textAnchor="middle" dominantBaseline="middle" className="text-sm" fontSize={13} fill="#6b7280">
+          {total} röster
+        </text>
+      </svg>
+
+      {/* Legend */}
+      <div className="flex flex-wrap justify-center gap-3">
+        {options.map((opt, i) => (
+          <div key={opt.opt_id} className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: getColor(i) }} />
+            <span className="text-xs text-gray-600">{opt.title}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function PollView({
   poll,
   options,
@@ -50,21 +117,25 @@ export default function PollView({
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8 max-w-3xl mx-auto">
 
-      {/* Poll */}
-      <div className="space-y-4">
-        <h1 className="text-2xl font-bold text-gray-900">{poll.title}</h1>
+      {/* Poll-kort */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-8 space-y-6">
 
-        {poll.category && (
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-white">
-            {poll.category}
-          </span>
-        )}
-        <p className="text-sm text-gray-400">{total} röster</p>
-
+        {/* Header */}
         <div className="space-y-2">
-          {options.map(opt => {
+          {poll.category && (
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-gray-900 text-white">
+              {poll.category}
+            </span>
+          )}
+          <h1 className="font-bold text-2xl text-gray-900 leading-snug">{poll.title}</h1>
+          <p className="text-sm text-gray-400">{total} röster</p>
+        </div>
+
+        {/* Alternativ */}
+        <div className="space-y-2">
+          {options.map((opt, i) => {
             const pct = total > 0 ? Math.round((opt.vote_count / total) * 100) : 0
             const isSelected = selected === opt.opt_id
             const isVoted = userVotedOptId === opt.opt_id
@@ -75,18 +146,21 @@ export default function PollView({
                 type="button"
                 disabled={hasVoted}
                 onClick={() => !hasVoted && setSelected(opt.opt_id)}
-                className={`w-full text-left p-3 rounded-xl border transition-all
+                className={`w-full text-left p-3 rounded-xl border transition-all duration-150
                   ${isSelected || isVoted ? 'bg-blue-50 border-blue-300' : 'bg-gray-50 border-gray-200'}
                   ${hasVoted ? 'cursor-default' : 'cursor-pointer'}`}
               >
                 <div className="flex justify-between items-baseline mb-1">
-                  <span className="font-medium text-gray-800 text-sm">{opt.title}</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: getColor(i) }} />
+                    <span className="font-medium text-gray-800 text-sm">{opt.title}</span>
+                  </div>
                   <span className="text-xs text-gray-400 ml-2">{pct}%</span>
                 </div>
                 <div className="w-full bg-gray-100 rounded-full h-1.5">
                   <div
-                    className={`h-1.5 rounded-full transition-all duration-500 ${isVoted ? 'bg-blue-500' : 'bg-gray-400'}`}
-                    style={{ width: `${pct}%` }}
+                    className="h-1.5 rounded-full transition-all duration-500"
+                    style={{ width: `${pct}%`, backgroundColor: getColor(i) }}
                   />
                 </div>
               </button>
@@ -94,20 +168,32 @@ export default function PollView({
           })}
         </div>
 
+        {/* Rösta */}
         {!hasVoted && (
-          <button
-            onClick={handleVote}
-            disabled={!selected || loading}
-            className={`w-full py-3 rounded-xl text-sm font-medium transition-all
-              ${selected ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
-          >
-            {loading ? 'Röstar...' : 'Rösta'}
-          </button>
+          userId ? (
+            <button
+              onClick={handleVote}
+              disabled={!selected || loading}
+              className={`w-full py-3 rounded-xl text-sm font-medium transition-all
+                ${selected ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+            >
+              {loading ? 'Röstar...' : 'Rösta'}
+            </button>
+          ) : (
+            
+              < a href="/login"
+              className={`w-full py-3 rounded-xl text-sm font-medium text-center block transition-all
+                ${selected ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none'}`}
+            >
+              Rösta
+            </a>
+          )
         )}
+        {/* Donut */}
+        <div className="pt-4 border-t border-gray-100">
+          <DonutChart options={options} />
+        </div>
 
-        {hasVoted && (
-          <p className="text-sm text-green-600 text-center">✓ Din röst är registrerad</p>
-        )}
       </div>
 
       {/* Kommentarer */}

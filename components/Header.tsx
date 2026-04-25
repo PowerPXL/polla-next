@@ -9,8 +9,8 @@ export default async function Header() {
   const userInitial = user?.user_metadata?.full_name?.[0]?.toUpperCase() ?? user?.email?.[0]?.toUpperCase() ?? null
 
   return (
-    <header className="border-b border-zinc-200 relative">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
+    <header className="border-b border-zinc-200 relative bg-gray-50">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6 bg">
         
         {/* Logo - oförändrad */}
         <div className="text-3xl font-bold tracking-tight">
