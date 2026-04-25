@@ -34,10 +34,9 @@ export default async function Home() {
 
   return (
     <main className="container mx-auto max-w-6xl">
-      <ContentBlock title="- ÄR UNDER UPPBYGGNAD | Tjänsten Polla.se är ej i drift -">
-        <p>Bestäm tillsammans. Skapa röstningar gratis -utan inlogg.</p>
+      <ContentBlock title="Bestäm tillsammans. Skapa röstningar gratis - utan inlogg.">
+        <p>Röstning är helt anonym och kopplas inte till person</p>
       </ContentBlock>
-
       <ContentCard
         blockTitle="Populära"
         items={featuredPolls}
