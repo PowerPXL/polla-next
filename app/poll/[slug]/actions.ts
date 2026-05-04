@@ -31,6 +31,7 @@ export async function vote(pollId: number, optId: number, slug: string) {
 export async function addComment(pollId: number, slug: string, formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { error: 'not_logged_in' }
   const comment = formData.get('comment') as string
 
   if (!comment?.trim()) return

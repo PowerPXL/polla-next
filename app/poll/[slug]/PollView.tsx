@@ -200,27 +200,33 @@ export default function PollView({
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-gray-900">Kommentarer</h2>
 
-        <form
-          action={async (formData) => {
-            await addComment(poll.poll_id, poll.slug, formData)
-          }}
-          className="space-y-2"
-        >
-          <textarea
-            name="comment"
-            required
-            maxLength={500}
-            placeholder={userId ? 'Skriv en kommentar...' : 'Kommentera som gäst...'}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-            rows={3}
-          />
-          <button
-            type="submit"
-            className="text-sm bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+        {userId ? (
+          <form
+            action={async (formData) => {
+              await addComment(poll.poll_id, poll.slug, formData)
+            }}
+            className="space-y-2"
           >
-            Skicka
-          </button>
-        </form>
+            <textarea
+              name="comment"
+              required
+              maxLength={500}
+              placeholder="Skriv en kommentar..."
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              rows={3}
+            />
+            <button
+              type="submit"
+              className="text-sm bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              Skicka
+            </button>
+          </form>
+        ) : (
+          <p className="text-sm text-gray-400">
+            <a href="/login" className="text-blue-600 hover:underline">Logga in</a> för att kommentera.
+          </p>
+        )}
 
         {comments.length === 0 && (
           <p className="text-sm text-gray-400">Inga kommentarer än.</p>
