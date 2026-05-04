@@ -45,9 +45,11 @@ export default function ContentCard({
             
 >{/* Header */}
               <div className="flex flex-col items-start text-left gap-1">
-                <h3 className="font-bold text-xl text-gray-900 leading-snug">
-                  {item.title}
-                </h3>
+                <Link href={`/poll/${item.slug}`}>
+                  <h3 className="font-bold text-xl text-gray-900 leading-snug hover:text-blue-600 transition-colors cursor-pointer">
+                    {item.title}
+                  </h3>
+                </Link>
               </div>
 
               <div className="space-y-2">
