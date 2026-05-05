@@ -13,6 +13,7 @@ type Comment = {
   comment_id: number
   comment: string
   created_at: string
+  users: { name: string } | null
 }
 
 type Poll = {
@@ -290,6 +291,12 @@ export default function PollView({
         <div className="space-y-4">
           {comments.map(c => (
             <div key={c.comment_id} className="border-b border-gray-100 pb-4">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-700">
+                  {c.users?.name?.[0]?.toUpperCase() ?? '?'}
+                </div>
+                <span className="text-xs font-medium text-gray-700">{c.users?.name ?? 'Anonym'}</span>
+              </div>
               <p className="text-sm text-gray-800">{c.comment}</p>
               <p className="text-xs text-gray-400 mt-1">
                 {new Date(c.created_at).toLocaleDateString('sv-SE', {

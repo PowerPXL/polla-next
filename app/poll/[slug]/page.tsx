@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
 const { data: comments } = await supabase
   .from('comments')
-  .select('*')
+  .select('*, users(name)')
   .eq('poll_id', poll.poll_id)
   .order('created_at', { ascending: false })
 
