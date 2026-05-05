@@ -96,12 +96,14 @@ export default function PollView({
   comments,
   userId,
   userVotedOptId,
+  userName,
 }: {
   poll: Poll
   options: Option[]
   comments: Comment[]
   userId: string | null
   userVotedOptId: number | null
+  userName: string | null
 }) {
   const [selected, setSelected] = useState<number | null>(null)
   const [hasVoted, setHasVoted] = useState(!!userVotedOptId)
@@ -245,7 +247,14 @@ export default function PollView({
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-gray-900">Kommentarer</h2>
 
-        {userId ? (
+      {userId ? (
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-700">
+              {userName?.[0]?.toUpperCase() ?? '?'}
+            </div>
+            <span className="text-sm text-gray-600">{userName}</span>
+          </div>
           <form
             action={async (formData) => {
               await addComment(poll.poll_id, poll.slug, formData)
@@ -264,14 +273,15 @@ export default function PollView({
               type="submit"
               className="text-sm bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
-              Skicka
+              Kommentera
             </button>
           </form>
-        ) : (
-          <p className="text-sm text-gray-400">
-            <a href="/login" className="text-blue-600 hover:underline">Logga in</a> för att kommentera.
-          </p>
-        )}
+        </div>
+      ) : (
+        <p className="text-sm text-gray-400">
+          <a href="/login" className="text-blue-600 hover:underline">Logga in</a> för att kommentera.
+        </p>
+      )}
 
         {comments.length === 0 && (
           <p className="text-sm text-gray-400">Inga kommentarer än.</p>

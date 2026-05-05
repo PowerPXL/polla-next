@@ -48,6 +48,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         comments={comments ?? []}
         userId={user?.id ?? null}
         userVotedOptId={userVotedOptId}
+        userName={user?.user_metadata?.full_name ?? user?.email?.split('@')[0] ?? null}
       />
     </main>
   )
