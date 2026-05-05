@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { vote, addComment } from './actions'
 
+ 
 type Option = {
   opt_id: number
   title: string
@@ -105,6 +106,7 @@ export default function PollView({
   const [selected, setSelected] = useState<number | null>(null)
   const [hasVoted, setHasVoted] = useState(!!userVotedOptId)
   const [loading, setLoading] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const total = options.reduce((sum, o) => sum + o.vote_count, 0)
 
@@ -193,7 +195,50 @@ export default function PollView({
         <div className="pt-4 border-t border-gray-100">
           <DonutChart options={options} />
         </div>
+        
+        {/* Dela */}
+<div className="pt-4 border-t border-gray-100">
+  <p className="text-xs text-gray-400 mb-2">Dela</p>
+  <div className="flex gap-2">
+      <a href={`https://twitter.com/intent/tweet?url=https://polla.se/poll/${poll.slug}&text=${encodeURIComponent(poll.title)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium hover:opacity-80 transition-opacity"
+    >
+      X
+      </a>
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=https://polla.se/poll/${poll.slug}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0A66C2] text-white text-xs font-medium hover:opacity-80 transition-opacity">
+        LinkedIn
+      </a>
+    
+      <a href={`https://www.facebook.com/sharer/sharer.php?u=https://polla.se/poll/$    {poll.  slug}`}
+        target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1877F2] text-white text-xs font-medium hover:opacity-80 transition-opacity">
+      Facebook
+    </a>
+      <a href={`https://wa.me/?text=${encodeURIComponent(poll.title + ' https://polla.se/poll/' + poll.slug)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#25D366] text-white text-xs font-medium hover:opacity-80 transition-opacity">
+        WhatsApp
+    </a>
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(`https://polla.se/poll/${poll.slug}`)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      }}
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 text-xs font-medium hover:bg-gray-200 transition-colors cursor-pointer"
+    >
+      {copied ? 'Kopierad!' : 'Kopiera länk'}
+    </button>
 
+  </div>
+</div>
       </div>
 
       {/* Kommentarer */}
