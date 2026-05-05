@@ -123,14 +123,6 @@ export default function ContentCard({
                         
 {/* Footer */}
             <div className="pt-4 border-t border-gray-100 space-y-2">
-
-{/* Slug */}
-          <Link
-            href={`/poll/${item.slug}`}
-            className="block text-[10px] text-gray-300 italic truncate font-mono cursor-pointer"
-            >
-            /{item.slug}
-          </Link>
 {/* Kommentar & Dela */}
           <div className="flex items-center justify-between">
 
