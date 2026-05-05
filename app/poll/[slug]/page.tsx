@@ -22,12 +22,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     .eq('poll_id', poll.poll_id)
     .order('sort_order')
 
-  const { data: comments } = await supabase
-    .from('comments')
-    .select('*')
-    .eq('poll_id', poll.poll_id)
-    .eq('is_active', true)
-    .order('created_at', { ascending: false })
+const { data: comments } = await supabase
+  .from('comments')
+  .select('*')
+  .eq('poll_id', poll.poll_id)
+  .order('created_at', { ascending: false })
 
   let userVotedOptId: number | null = null
   if (user) {

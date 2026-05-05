@@ -246,6 +246,10 @@ export default function PollView({
       {/* Kommentarer */}
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-gray-900">Kommentarer</h2>
+      
+      
+      <p className="text-xs text-red-500">{userName || 'NULL'}</p>
+
 
       {userId ? (
         <div className="space-y-2">
@@ -258,6 +262,7 @@ export default function PollView({
           <form
             action={async (formData) => {
               await addComment(poll.poll_id, poll.slug, formData)
+              window.location.reload() 
             }}
             className="space-y-2"
           >
