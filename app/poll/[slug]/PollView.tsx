@@ -247,10 +247,6 @@ export default function PollView({
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-gray-900">Kommentarer</h2>
       
-      
-      <p className="text-xs text-red-500">{userName || 'NULL'}</p>
-
-
       {userId ? (
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-2">
