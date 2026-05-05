@@ -216,7 +216,7 @@ export default function PollView({
         LinkedIn
       </a>
     
-      <a href={`https://www.facebook.com/sharer/sharer.php?u=https://polla.se/poll/$    {poll.  slug}`}
+      <a href={`https://www.facebook.com/sharer/sharer.php?u=https://polla.se/poll/${poll.slug}`}
         target="_blank"
       rel="noopener noreferrer"
       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1877F2] text-white text-xs font-medium hover:opacity-80 transition-opacity">

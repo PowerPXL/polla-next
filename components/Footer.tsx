@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <div className="text-xl font-bold mb-4">Polla.se</div>
             <p className="text-sm text-zinc-600 mb-4">
-              Skapa polls gratis utan inlogg, opinionsundersökningar snabbt och enkelt. Bestäm tillsammans! 
+              Skapa polls gratis utan inlogg, opinionsundersökningar snabbt och enkelt. Bestäm tillsammans! Cross-platform polls. Här skapar vi opinionsunderlag, för att representera en alternativ röst i samhället. Vi tror på kraften i kollektiv intelligens och att varje röst räknas. Välkommen att delta i vår demokratiska plattform där du kan skapa och delta i polls som formar framtiden!
             </p>
           </div>
           <div>
