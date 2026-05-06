@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { createPoll } from './actions'
+import { Users, GlobeLock } from "lucide-react";
 
 const CATEGORIES = [
   'SAMHÄLLE', 'POLITIK', 'EKONOMI', 'ARBETE', 'UTBILDNING',
@@ -24,7 +25,7 @@ export default function CreatePoll({ isLoggedIn }: { isLoggedIn: boolean }) {
     setOptions(options.map((o, idx) => idx === i ? value : o))
   }
 
-  const [pollType, setPollType] = useState<'local' | 'global'>('global')
+  const [pollType, setPollType] = useState<'local' | 'global'>('local')
 
   return (
     <form action={createPoll} className="space-y-6 max-w-xl">
@@ -52,8 +53,8 @@ export default function CreatePoll({ isLoggedIn }: { isLoggedIn: boolean }) {
             className="mt-0.5"
           />
           <div>
-            <p className="text-sm font-medium text-gray-900">Lokal poll</p>
-            <p className="text-xs text-gray-500">Ingen inloggning krävs. Perfekt för vänner och små grupper.</p>
+            <p className="text-sm font-medium text-gray-900">Lokal</p>
+            <p className="text-xs text-gray-500">Ingen inloggning krävs för att rösta. Perfekt för kollegor och mindre grupper.</p>
           </div>
         </label>
 
@@ -70,8 +71,8 @@ export default function CreatePoll({ isLoggedIn }: { isLoggedIn: boolean }) {
             className="mt-0.5"
           />
           <div>
-            <p className="text-sm font-medium text-gray-900">Global poll</p>
-            <p className="text-xs text-gray-500">Kräver inloggning. Publiceras öppet och visar mer pålitliga resultat.</p>
+            <p className="text-sm font-medium text-gray-900">Global</p>
+            <p className="text-xs text-gray-500">Kräver inloggning. Publiceras offentligt. Bra för opinionsundersökningar</p>
           </div>
         </label>
       </div>
