@@ -6,7 +6,23 @@ export async function vote(pollId: number, optId: number, slug: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) return { error: 'not_logged_in' }
+  // Kolla dublett för inloggad användare
+  if (user) {
+    const { data: existing } = await supabase
+      .from('poll_votes')
+      .select('vote_id')
+      .eq('poll_id', pollId)
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    if (existing) return { error: 'already_voted' }
+  }
+
+  await supabase.from('poll_votes').insert({
+    poll_id: pollId,
+    opt_id: optId,
+    user_id: user?.id ?? null,
+  })
 
   const { data: existing } = await supabase
     .from('poll_votes')

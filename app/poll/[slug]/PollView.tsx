@@ -22,6 +22,7 @@ type Poll = {
   slug: string
   total_votes: number
   category: string | null
+  poll_type: string | null
 }
 
 const COLORS = ['#EA4335', '#4285F4', '#FBBC05', '#374151']
@@ -175,7 +176,7 @@ export default function PollView({
         </div>
         {/* Rösta */}
         {!hasVoted && (
-          userId ? (
+          userId || poll.poll_type === 'local' ? (
             <button
               onClick={handleVote}
               disabled={!selected || loading}
@@ -185,8 +186,7 @@ export default function PollView({
               {loading ? 'Röstar...' : 'Rösta'}
             </button>
           ) : (
-            
-              <a href="/login"
+            <a href="/login"
               className={`w-full py-3 rounded-xl text-sm font-medium text-center block transition-all
                 ${selected ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none'}`}
             >
