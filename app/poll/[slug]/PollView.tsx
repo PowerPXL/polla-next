@@ -176,7 +176,7 @@ export default function PollView({
         </div>
         {/* Rösta */}
         {!hasVoted && (
-          userId || poll.poll_type === 'local' ? (
+          (userId || poll.poll_type === 'local') ? (
             <button
               onClick={handleVote}
               disabled={!selected || loading}

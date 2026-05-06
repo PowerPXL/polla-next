@@ -6,7 +6,6 @@ export async function vote(pollId: number, optId: number, slug: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Kolla dublett för inloggad användare
   if (user) {
     const { data: existing } = await supabase
       .from('poll_votes')
@@ -24,21 +23,6 @@ export async function vote(pollId: number, optId: number, slug: string) {
     user_id: user?.id ?? null,
   })
 
-  const { data: existing } = await supabase
-    .from('poll_votes')
-    .select('vote_id')
-    .eq('poll_id', pollId)
-    .eq('user_id', user.id)
-    .maybeSingle()
-
-  if (existing) return { error: 'already_voted' }
-
-  const { error: insertError } = await supabase.from('poll_votes').insert({
-    poll_id: pollId,
-    opt_id: optId,
-    user_id: user.id,
-  })
-
   await supabase.rpc('increment_vote', { opt_id_input: optId, poll_id_input: pollId })
 
   revalidatePath(`/poll/${slug}`)
@@ -47,7 +31,9 @@ export async function vote(pollId: number, optId: number, slug: string) {
 export async function addComment(pollId: number, slug: string, formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return { error: 'not_logged_in' }
+
+  if (!user) return { error: 'not_logged_in' }
+
   const comment = formData.get('comment') as string
 
   if (!comment?.trim()) return
@@ -55,7 +41,7 @@ export async function addComment(pollId: number, slug: string, formData: FormDat
   await supabase.from('comments').insert({
     poll_id: pollId,
     comment: comment.trim(),
-    created_by: user?.id ?? null,
+    created_by: user.id,
   })
 
   revalidatePath(`/poll/${slug}`)
