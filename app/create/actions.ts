@@ -9,17 +9,18 @@ export async function createPoll(formData: FormData) {
   const title = formData.get('title') as string
   const options = formData.getAll('options') as string[]
   const category = formData.get('category') as string | null
+  const pollType = formData.get('poll_type') as string | null
 
   if (!title || options.length < 2) return
 
-  // Skapa bas-slug från titel
+  // Skapa slug från titel
   const baseSlug = title
     .toLowerCase()
     .replace(/å/g, 'a').replace(/ä/g, 'a').replace(/ö/g, 'o')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-  // Kolla om slug redan finns, lägg till siffra om den gör det
+  // Kolla om samma slug finns, lägg till siffra
   let slug = baseSlug
   let counter = 1
   while (true) {
@@ -40,6 +41,7 @@ export async function createPoll(formData: FormData) {
       title,
       slug,
       category: category || null,
+      poll_type: pollType ?? 'global',
       created_by: user?.id ?? null,
     })
     .select('poll_id')
