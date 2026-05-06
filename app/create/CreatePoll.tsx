@@ -24,6 +24,8 @@ export default function CreatePoll({ isLoggedIn }: { isLoggedIn: boolean }) {
     setOptions(options.map((o, idx) => idx === i ? value : o))
   }
 
+  const [pollType, setPollType] = useState<'local' | 'global'>('global')
+
   return (
     <form action={createPoll} className="space-y-6 max-w-xl">
 
@@ -32,6 +34,47 @@ export default function CreatePoll({ isLoggedIn }: { isLoggedIn: boolean }) {
           Du är anonym. <a href="/login" className="text-blue-500 hover:underline">Logga in</a> om du vill redigera polls.
         </div>
       )}
+
+            {/* Poll-typ */}
+      <div className="space-y-2">
+        <input type="hidden" name="poll_type" value={pollType} />
+        
+        <label
+          onClick={() => setPollType('local')}
+          className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-all
+            ${pollType === 'local' ? 'border-gray-900 bg-gray-50' : 'border-gray-200 hover:border-gray-300'}`}
+        >
+          <input
+            type="radio"
+            name="poll_type_radio"
+            checked={pollType === 'local'}
+            onChange={() => setPollType('local')}
+            className="mt-0.5"
+          />
+          <div>
+            <p className="text-sm font-medium text-gray-900">Lokal poll</p>
+            <p className="text-xs text-gray-500">Ingen inloggning krävs. Perfekt för vänner och små grupper.</p>
+          </div>
+        </label>
+
+        <label
+          onClick={() => setPollType('global')}
+          className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-all
+            ${pollType === 'global' ? 'border-gray-900 bg-gray-50' : 'border-gray-200 hover:border-gray-300'}`}
+        >
+          <input
+            type="radio"
+            name="poll_type_radio"
+            checked={pollType === 'global'}
+            onChange={() => setPollType('global')}
+            className="mt-0.5"
+          />
+          <div>
+            <p className="text-sm font-medium text-gray-900">Global poll</p>
+            <p className="text-xs text-gray-500">Kräver inloggning. Publiceras öppet och visar mer pålitliga resultat.</p>
+          </div>
+        </label>
+      </div>
 
       {/* Titel */}
       <div>
