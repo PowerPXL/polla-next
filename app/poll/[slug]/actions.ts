@@ -25,13 +25,18 @@ export async function vote(pollId: number, optId: number, slug: string) {
   })
 // Cookie
     if (!user) {
-      const cookieStore = await cookies()
-      cookieStore.set(`voted_${pollId}`, 'true', {
-        maxAge: 60 * 60 * 24 * 365, // 1 år
-        httpOnly: true,
-        sameSite: 'lax'
-      })
-}
+      try {
+        const cookieStore = await cookies()
+        cookieStore.set(`voted_${pollId}`, 'true', {
+          maxAge: 60 * 60 * 24 * 365,
+          httpOnly: true,
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production'
+        })
+      } catch (error) {
+        console.error('Cookie error:', error)
+      }
+    }
   await supabase.rpc('increment_vote', { opt_id_input: optId, poll_id_input: pollId })
 
   revalidatePath(`/poll/${slug}`)
