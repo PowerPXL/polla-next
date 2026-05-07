@@ -1,6 +1,7 @@
 'use server'
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
 
 export async function vote(pollId: number, optId: number, slug: string) {
   const supabase = await createClient()
@@ -22,7 +23,15 @@ export async function vote(pollId: number, optId: number, slug: string) {
     opt_id: optId,
     user_id: user?.id ?? null,
   })
-
+// Cookie
+    if (!user) {
+      const cookieStore = await cookies()
+      cookieStore.set(`voted_${pollId}`, 'true', {
+        maxAge: 60 * 60 * 24 * 365, // 1 år
+        httpOnly: true,
+        sameSite: 'lax'
+      })
+}
   await supabase.rpc('increment_vote', { opt_id_input: optId, poll_id_input: pollId })
 
   revalidatePath(`/poll/${slug}`)

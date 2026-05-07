@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import PollView from './PollView'
+import { cookies } from 'next/headers'
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -37,6 +38,13 @@ const { data: comments } = await supabase
       .eq('user_id', user.id)
       .single()
     userVotedOptId = vote?.opt_id ?? null
+  } else {
+    // Kolla cookie för anonym röstning
+    const cookieStore = await cookies()
+    const voted = cookieStore.get(`voted_${poll.poll_id}`)
+    if (voted) {
+      userVotedOptId = -1 // Dummy-värde för att markera som röstad
+    }
   }
 
   return (
