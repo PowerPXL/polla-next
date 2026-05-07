@@ -118,6 +118,12 @@ export default function PollView({
   if (!selected || hasVoted) return
   setLoading(true)
   const result = await vote(poll.poll_id, selected, poll.slug)
+
+  if (result?.redirect) {
+    window.location.href = result.redirect
+    return
+  }
+
   setHasVoted(true)
   setLoading(false)
   window.location.reload()

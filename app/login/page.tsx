@@ -1,7 +1,26 @@
-import { signInWithGoogle, signInWithFacebook } from "./actions";
+import { signInWithGoogle, signInWithFacebook, handlePostLogin } from "./actions";
 import { ShieldCheck } from "lucide-react";
+import { headers } from "next/headers";
 
-export default function Page() {
+export default async function Page() {
+  // Check if user just authenticated and has pending vote
+  const headersList = await headers();
+  const referer = headersList.get('referer');
+  if (referer) {
+    const url = new URL(referer);
+    const searchParams = url.searchParams;
+
+    const authenticated = searchParams.get('authenticated');
+    const poll = searchParams.get('poll');
+    const option = searchParams.get('option');
+    const slug = searchParams.get('slug');
+
+    // If user just authenticated and has pending vote, handle it
+    if (authenticated === 'true' && poll && option && slug) {
+      await handlePostLogin(searchParams);
+    }
+  }
+
   return (
     <div className="flex flex-col items-center pt-20">
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 w-full max-w-sm space-y-4">

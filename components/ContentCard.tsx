@@ -28,6 +28,7 @@ export default function ContentCard({
     options.reduce((sum, o) => sum + o.votes, 0);
 
   const [selected, setSelected] = useState<Record<string, string | null>>({});
+  const [loading, setLoading] = useState<Record<string, boolean>>({});
 
   return (
     <section className="space-y-6">
@@ -37,12 +38,13 @@ export default function ContentCard({
         {items.map((item) => {
           const total = totalVotes(item.options);
           const selectedOption = selected[item.id] || null;
+          const isLoading = loading[item.id] || false;
 
           return (
             <div
               key={item.id}
               className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4"
-            
+
 >{/* Header */}
               <div className="flex flex-col items-start text-left gap-1">
                 <Link href={`/poll/${item.slug}`}>
@@ -105,22 +107,43 @@ export default function ContentCard({
             <button
               suppressHydrationWarning
               type="button"
-              disabled={!selectedOption}
+              disabled={!selectedOption || isLoading}
               className={`w-full p-3 rounded-xl border text-sm font-medium transition-all
                 ${
-                  selectedOption
-                    ? "bg-blue-500 text-white border-blue-500 cursor-pointer"
+                  selectedOption && !isLoading
+                    ? "bg-blue-500 text-white border-blue-500 cursor-pointer hover:bg-blue-600"
                     : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
                 }`}
-              onClick={() => {
-                if (!selectedOption) return;
-                console.log("vote:", item.id, selectedOption);
-                // här kopplar du API / server action senare
+              onClick={async () => {
+                if (!selectedOption || isLoading) return;
+
+                setLoading((prev) => ({ ...prev, [item.id]: true }));
+
+                try {
+                  // Import the vote action dynamically
+                  const { vote } = await import("../app/poll/[slug]/actions");
+                  const pollId = parseInt(item.id);
+                  const optId = parseInt(selectedOption);
+
+                  const result = await vote(pollId, optId, item.slug);
+
+                  if (result?.redirect) {
+                    window.location.href = result.redirect;
+                    return;
+                  }
+
+                  // Reload to show updated results
+                  window.location.reload();
+                } catch (error) {
+                  console.error("Vote error:", error);
+                } finally {
+                  setLoading((prev) => ({ ...prev, [item.id]: false }));
+                }
               }}
             >
-              Rösta
-            </button>              
-                        
+              {isLoading ? "Röstar..." : "Rösta"}
+            </button>
+
 {/* Footer */}
             <div className="pt-4 border-t border-gray-100 space-y-2">
 {/* Kommentar & Dela */}

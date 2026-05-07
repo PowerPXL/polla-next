@@ -30,3 +30,26 @@ export async function signInWithFacebook() {
   if (error) redirect("/error");
   if (data.url) redirect(data.url);
 }
+
+export async function handlePostLogin(searchParams: URLSearchParams) {
+  const pollId = searchParams.get('poll');
+  const optionId = searchParams.get('option');
+  const slug = searchParams.get('slug');
+
+  if (pollId && optionId && slug) {
+    // Import the vote action dynamically
+    const { vote } = await import("../poll/[slug]/actions");
+    const result = await vote(parseInt(pollId), parseInt(optionId), slug);
+
+    if (result?.error) {
+      // Handle error - maybe redirect to poll with error message
+      redirect(`/poll/${slug}?error=${result.error}`);
+    } else {
+      // Success - redirect to poll
+      redirect(`/poll/${slug}`);
+    }
+  } else {
+    // No pending vote - redirect to home
+    redirect('/');
+  }
+}

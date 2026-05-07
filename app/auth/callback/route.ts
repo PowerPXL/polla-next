@@ -10,7 +10,17 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  return NextResponse.redirect(`${origin}/`);
+  // Check if there are poll voting parameters to preserve
+  const poll = searchParams.get("poll");
+  const option = searchParams.get("option");
+  const slug = searchParams.get("slug");
+
+  let redirectUrl = `${origin}/`;
+  if (poll && option && slug) {
+    redirectUrl = `${origin}/login?authenticated=true&poll=${poll}&option=${option}&slug=${slug}`;
+  }
+
+  return NextResponse.redirect(redirectUrl);
 }
 
 export async function POST() {
