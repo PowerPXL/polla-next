@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { Globe, Users } from 'lucide-react'
 import { vote, addComment } from './actions'
 
  
@@ -138,9 +139,16 @@ export default function PollView({
         {/* Header */}
         <div className="space-y-2">
           {poll.category && (
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-gray-900 text-white">
-              {poll.category}
-            </span>
+            <div className="flex items-center gap-1">
+              {poll.poll_type === 'global' ? (
+                <Globe className="h-4 w-4 text-yellow-500" aria-label="Global" />
+              ) : poll.poll_type === 'local' ? (
+                <Users className="h-4 w-4 text-gray-500" aria-label="Lokal" />
+              ) : null}
+              <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+                {poll.category}
+              </span>
+            </div>
           )}
           <h1 className="font-bold text-2xl text-gray-900 leading-snug">{poll.title}</h1>
           <p className="text-sm text-gray-400">{total} röster</p>

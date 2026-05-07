@@ -12,6 +12,8 @@ export default async function Home() {
       poll_id,
       title,
       slug,
+      poll_type,
+      category,
       poll_opt (
         opt_id,
         title,
@@ -25,6 +27,8 @@ export default async function Home() {
     id: String(poll.poll_id),
     title: poll.title,
     slug: poll.slug,
+    poll_type: poll.poll_type ?? null,
+    category: poll.category ?? null,
     options: poll.poll_opt.map((opt) => ({
       id: String(opt.opt_id),
       text: opt.title,

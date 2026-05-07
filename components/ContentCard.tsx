@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Globe, Users } from "lucide-react";
 
 type PollOption = {
   id: string;
@@ -13,6 +14,8 @@ type CardItem = {
   id: string;
   title: string;
   slug: string;
+  poll_type: "local" | "global" | null;
+  category: string | null;
   options: PollOption[];
   commentsCount: number;
 };
@@ -46,12 +49,28 @@ export default function ContentCard({
               className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4"
 
 >{/* Header */}
-              <div className="flex flex-col items-start text-left gap-1">
-                <Link href={`/poll/${item.slug}`}>
-                  <h3 className="font-bold text-xl text-gray-900 leading-snug hover:text-blue-600 transition-colors cursor-pointer">
-                    {item.title}
-                  </h3>
-                </Link>
+              <div className="space-y-2">
+                {(item.poll_type || item.category) ? (
+                  <div className="flex items-center gap-1">
+                    {item.poll_type === "global" ? (
+                      <Globe className="h-3 w-3 text-yellow-500" aria-label="Global" />
+                    ) : item.poll_type === "local" ? (
+                      <Users className="h-3 w-3 text-gray-500" aria-label="Lokal" />
+                    ) : null}
+                    {item.category ? (
+                      <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-700">
+                        {item.category}
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
+                <div className="min-w-0">
+                  <Link href={`/poll/${item.slug}`}>
+                    <h3 className="font-bold text-xl text-gray-900 leading-snug hover:text-blue-600 transition-colors cursor-pointer">
+                      {item.title}
+                    </h3>
+                  </Link>
+                </div>
               </div>
 
               <div className="space-y-2">
