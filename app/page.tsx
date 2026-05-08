@@ -23,6 +23,18 @@ export default async function Home() {
     .eq("featured", true)
     .limit(3);
 
+  // Get comment counts for each poll
+  const pollIds = polls?.map(p => p.poll_id) ?? [];
+  const { data: commentCounts } = await supabase
+    .from("comments")
+    .select("poll_id")
+    .in("poll_id", pollIds);
+
+  const commentsCountMap = (commentCounts ?? []).reduce((acc, comment) => {
+    acc[comment.poll_id] = (acc[comment.poll_id] || 0) + 1;
+    return acc;
+  }, {} as Record<number, number>);
+
   const featuredPolls = (polls ?? []).map((poll) => ({
     id: String(poll.poll_id),
     title: poll.title,
@@ -34,7 +46,7 @@ export default async function Home() {
       text: opt.title,
       votes: opt.vote_count,
     })),
-    commentsCount: 0,
+    commentsCount: commentsCountMap[poll.poll_id] ?? 0,
   }));
 
   return (
