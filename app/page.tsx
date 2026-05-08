@@ -70,16 +70,22 @@ export default async function Home() {
         items={featuredPolls}
       />
 
-      <ContentBlock title="Tillförlitliga och träffsäkra omröstningar online Polla.se">
+      <ContentBlock title=" " subtitle="Tillförlitliga och träffsäkra omröstningar online Polla.se">
         <div className="text-xs space-y-4">
           <p>
-            Produkten bakom Polla.se bygger på en algoritm som är utvecklad för att detektera och motverka manipulation i omröstningar. Genom att analysera röstningsmönster i realtid kan systemet identifiera avvikande beteenden som kan indikera ogiltig eller manipulerad aktivitet, såsom automatiserade röster, onormala röstningsfrekvenser eller upprepade mönster från samma användare.
+            Produkten bakom Polla.se bygger på en algoritm som är utvecklad för att detektera och motverka manipulation i omröstningar. 
+            Genom att analysera röstningsmönster i realtid kan systemet identifiera avvikande beteenden som kan 
+            indikera ogiltig eller manipulerad aktivitet, såsom automatiserade röster, onormala röstningsfrekvenser eller upprepade 
+            mönster från samma användare.
           </p>
           <p>
-            Vi strävar efter att säkerställa hög riktighet och träffsäkerhet i våra omröstningar. Samtidigt är det viktigt att vara transparent med att alla digitala undersökningar innehåller en viss felkälla. Felmarginalen uppskattas i dagsläget till cirka 2–3 % och beaktas i samtliga publika omröstningar.
+            Vi strävar efter att säkerställa hög riktighet och träffsäkerhet i våra omröstningar. 
+            Samtidigt är det viktigt att vara transparent med att alla digitala undersökningar innehåller en viss felkälla. 
+            Felmarginalen uppskattas i dagsläget till cirka 2–3 % och beaktas i samtliga publika omröstningar.
           </p>
           <p>
-            Genom dessa åtgärder strävar vi efter att resultaten ska spegla användarnas faktiska åsikter så korrekt som möjligt, samtidigt som vi kontinuerligt förbättrar våra metoder för att ytterligare stärka tillförlitligheten.
+            Genom dessa åtgärder strävar vi efter att resultaten ska spegla användarnas faktiska åsikter så korrekt som möjligt, 
+            samtidigt som vi kontinuerligt förbättrar våra metoder för att ytterligare stärka tillförlitligheten.
           </p>
         </div>
       </ContentBlock>
