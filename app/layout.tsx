@@ -1,5 +1,6 @@
 import "./globals.css";
 import Header from "@/components/Header";
+import ProfileBar from "@/components/ProfileBar"; 
 import Footer from "@/components/Footer";
 
 export const metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body>
         <div className="min-h-screen flex flex-col">
           <Header />
+            <ProfileBar /> 
           <main className="flex-1">
             <div className="mx-auto w-full max-w-5xl px-4 py-4">
               <div className="flex flex-col gap-10 min-h-[60vh]">
