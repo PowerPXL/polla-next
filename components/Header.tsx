@@ -1,14 +1,23 @@
-// Header.tsx - serverkomponent
+'use server'; 
+
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import MobileHeader from "./MobileHeader";
 import SearchBar from "./SearchBar";
-import { Plus, CircleUser } from "lucide-react"; // <-- importera ikoner
+import { Plus, CircleUser } from "lucide-react";
+
+
+// Server‑action för att logga ut
+export async function signOut() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+}
 
 
 export default async function Header() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
   const { data: searchPolls } = await supabase
     .from('poll')
     .select('poll_id,title,slug,category')
@@ -43,7 +52,6 @@ export default async function Header() {
 
 
         <nav className="hidden md:flex items-center gap-6 whitespace-nowrap">
-          {/* +Skapa med gul ikon */}
           <Link
             href="/create"
             className="flex items-center gap-1 hover:text-blue-600 transition-colors"
@@ -52,7 +60,6 @@ export default async function Header() {
             Skapa
           </Link>
 
-          {/* Dataskydd & GDPR – samma rad, samma gap */}
           <Link
             href="/dataprotect"
             className="hover:text-blue-600 transition-colors"
@@ -60,14 +67,16 @@ export default async function Header() {
             Dataskydd & GDPR
           </Link>
 
-          {/* Login / Logout */}
           {userInitial ? (
-            <Link
-              href="/profile"
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors"
-            >
-              {userInitial}
-            </Link>
+            // Logga ut‑knapp med server‑action INNANför formuläret
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="text-sm font-medium px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors"
+              >
+                Logga ut
+              </button>
+            </form>
           ) : (
             <Link
               href="/login"
