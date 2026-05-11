@@ -69,12 +69,14 @@ export default function SearchBar({ polls }: { polls: PollSearchItem[] }) {
               <div className="mt-3 flex flex-wrap gap-2">
                 {categories.length > 0 ? (
                   categories.map((category) => (
-                    <span
+                    <Link  // ← NY! Link istället för span
                       key={category}
-                      className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs text-gray-700"
+                      href={`/category/${encodeURI(category.toLowerCase())}`}
+                      className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-200"  // ← NY hover/focus
+                      onClick={() => setIsOpen(false)}  // ← NY! Stäng dropdown
                     >
                       {category}
-                    </span>
+                    </Link>
                   ))
                 ) : (
                   <p className="text-sm text-gray-500">Inga kategorier hittades</p>
@@ -82,6 +84,7 @@ export default function SearchBar({ polls }: { polls: PollSearchItem[] }) {
               </div>
             </div>
 
+            {/* Resten oförändrad */}
             <div className="px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
                 Omröstningar

@@ -1,8 +1,12 @@
 // app/category/[slug]/page.tsx (server)
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import ContentCard from "@/components/ContentCard";
-import ContentBlock from "@/components/ContentBlock";
 
+const CATEGORIES = [
+  'SAMHÄLLE', 'POLITIK', 'EKONOMI', 'ARBETE', 'UTBILDNING',
+  'FAMILJ', 'HÄLSA', 'KULTUR', 'TECH', 'SPORT', 'MILJÖ'
+];
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -24,7 +28,7 @@ export default async function CategoryPage(props: Props) {
     .eq("is_active", true)
     .order("created_at", { ascending: false });
 
-  // ... samma commentCounts-logik som Home ...
+  // commentCounts
   const pollIds = polls?.map(p => p.poll_id) ?? [];
   const { data: commentCounts } = await supabase
     .from("comments")
@@ -51,11 +55,27 @@ export default async function CategoryPage(props: Props) {
   }));
 
   return (
-    <main className="container mx-auto max-w-6xl">
-      <ContentBlock title={`${category} – Alla omröstningar`}>
-        <p className="text-lg">Pollar inom {category}</p>
-      </ContentBlock>
-      <ContentCard blockTitle={`${category} Pollar`} items={categoryPolls} />
+    <main className="container mx-auto max-w-6xl space-y-8 py-8">
+      {/* NY! Kategorier som i CreatePoll */}
+      <div>
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map((cat) => (
+            <Link
+              key={cat}
+              href={`/category/${encodeURI(cat.toLowerCase())}`}
+              className={`px-2 py-1 rounded-full text-xs font-medium transition-all cursor-pointer
+                ${category === cat
+                  ? 'bg-gray-700 text-white ring-1 ring-[#FBBC05]'
+                  : 'bg-gray-500 text-white hover:bg-gray-700'
+                }`}
+            >
+              {cat}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <ContentCard blockTitle={`#${category}`} items={categoryPolls} />
     </main>
   );
 }
