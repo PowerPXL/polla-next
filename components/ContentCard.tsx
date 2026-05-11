@@ -58,9 +58,12 @@ export default function ContentCard({
                       <Users className="h-3 w-3 text-gray-500" aria-label="Lokal" />
                     ) : null}
                     {item.category ? (
-                      <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-700">
+                      <Link 
+                        href={`/category/${item.category.toLowerCase()}`}
+                        className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-700 transition-colors"
+                      >
                         {item.category}
-                      </span>
+                      </Link>
                     ) : null}
                   </div>
                 ) : null}
