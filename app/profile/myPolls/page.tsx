@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Vote } from 'lucide-react';
 import ContentCard from '@/components/ContentCard';
+import { error } from 'console';
 
 export default async function MyPollsPage() {
   const supabase = await createClient();
@@ -22,7 +23,11 @@ export default async function MyPollsPage() {
     .eq('user_id', user.id)
     .eq('is_active', true)
     .order('created_at', { ascending: false });
+    console.log('USER ID:', user.id);
+    console.log('POLLS:', JSON.stringify(polls, null, 2));
+    console.log('ERROR:', error);
 
+  
   const pollIds = polls?.map(p => p.poll_id) ?? [];
 
   const { data: commentCounts } = pollIds.length > 0
