@@ -16,11 +16,12 @@ export default async function MyPollsPage() {
 
 const { data: polls, error } = await supabase
   .from('poll')
-  .select('poll_id, title, slug, poll_type, category')
-  .eq('user_id', user.id)
-
-console.log('POLLS:', JSON.stringify(polls, null, 2));
-console.log('ERROR:', JSON.stringify(error, null, 2));
+  .select(`
+    poll_id, title, slug, poll_type, category,
+    poll_opt(opt_id, title, vote_count)
+  `)
+  .eq('created_by', user.id)
+  .order('created_at', { ascending: false });
 
   
   const pollIds = polls?.map(p => p.poll_id) ?? [];
