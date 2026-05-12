@@ -14,7 +14,6 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Sitemap</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/faq" className="hover:text-blue-600 transition-colors">FAQ</Link></li>
               <li><Link href="/kontakt" className="hover:text-blue-600 transition-colors">Kontakt</Link></li>
             </ul>
           </div>
