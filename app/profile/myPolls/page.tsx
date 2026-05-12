@@ -1,42 +1,56 @@
-import { createClient } from "@/lib/supabase/server";
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Vote, ChevronRight, BarChart2 } from 'lucide-react';
+import { Vote } from 'lucide-react';
+import ContentCard from '@/components/ContentCard';
 
 export default async function MyPollsPage() {
   const supabase = await createClient();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (!session) {
+  if (!user) {
     redirect('/login');
   }
 
-  const { data: polls, error } = await supabase
+  const { data: polls } = await supabase
     .from('poll')
     .select(`
-      *,
-      poll_opt (id),
-      poll_votes (id)
+      poll_id, title, slug, poll_type, category,
+      poll_opt!poll_id(opt_id, title, vote_count)
     `)
-    .eq('user_id', session.user.id)
+    .eq('user_id', user.id)
+    .eq('is_active', true)
     .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Error fetching polls:', error);
-  }
+  const pollIds = polls?.map(p => p.poll_id) ?? [];
+
+  const { data: commentCounts } = pollIds.length > 0
+    ? await supabase.from('comments').select('poll_id').in('poll_id', pollIds)
+    : { data: [] };
+
+  const commentsCountMap = (commentCounts ?? []).reduce((acc, c) => {
+    acc[c.poll_id] = (acc[c.poll_id] || 0) + 1;
+    return acc;
+  }, {} as Record<number, number>);
+
+  const items = (polls ?? []).map(poll => ({
+    id: String(poll.poll_id),
+    title: poll.title,
+    slug: poll.slug,
+    poll_type: poll.poll_type ?? null,
+    category: poll.category ?? null,
+    options: poll.poll_opt.map((opt: { opt_id: number; title: string; vote_count: number }) => ({
+      id: String(opt.opt_id),
+      text: opt.title,
+      votes: opt.vote_count,
+    })),
+    commentsCount: commentsCountMap[poll.poll_id] ?? 0,
+  }));
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-8">
-      <div className="mb-6 flex items-center gap-2">
-        <Vote className="h-6 w-6 text-gray-300" />
-        <h1 className="text-2xl font-semibold text-white">Mina polls</h1>
-      </div>
-
-      {!polls || polls.length === 0 ? (
+    <main className="container mx-auto max-w-6xl space-y-8 py-8">
+      {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-600 py-20 text-center">
           <Vote className="mb-4 h-10 w-10 text-gray-500" />
           <p className="text-gray-400">Du har inte skapat några polls ännu.</p>
@@ -48,32 +62,8 @@ export default async function MyPollsPage() {
           </Link>
         </div>
       ) : (
-        <ul className="space-y-3">
-          {polls.map((poll) => (
-            <li key={poll.id}>
-              <Link
-                href={`/poll/${poll.id}`}
-                className="flex items-center justify-between rounded-xl bg-[#374151] px-5 py-4 hover:bg-[#3f4d5e] transition-colors group"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="truncate font-medium text-white">{poll.question ?? poll.title}</p>
-                  <div className="mt-1 flex items-center gap-3 text-xs text-gray-400">
-                    <span className="flex items-center gap-1">
-                      <BarChart2 className="h-3 w-3" />
-                      {poll.poll_votes?.length ?? 0} röster
-                    </span>
-                    <span>{poll.poll_opt?.length ?? 0} alternativ</span>
-                    <span>
-                      {new Date(poll.created_at).toLocaleDateString('sv-SE')}
-                    </span>
-                  </div>
-                </div>
-                <ChevronRight className="ml-4 h-4 w-4 flex-shrink-0 text-gray-500 group-hover:text-gray-300 transition-colors" />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <ContentCard blockTitle="Mina polls" items={items} />
       )}
-    </div>
+    </main>
   );
 }
