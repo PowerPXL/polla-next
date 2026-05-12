@@ -72,7 +72,7 @@ export default async function Header() {
             <form action={signOut}>
               <button
                 type="submit"
-                className="text-sm font-medium px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors"
+                className="text-sm font-medium px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
               >
                 Logga ut
               </button>
