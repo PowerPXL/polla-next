@@ -14,18 +14,13 @@ export default async function MyPollsPage() {
     redirect('/login');
   }
 
-  const { data: polls } = await supabase
-    .from('poll')
-    .select(`
-      poll_id, title, slug, poll_type, category,
-      poll_opt!poll_id(opt_id, title, vote_count)
-    `)
-    .eq('user_id', user.id)
-    .eq('is_active', true)
-    .order('created_at', { ascending: false });
-    console.log('USER ID:', user.id);
-    console.log('POLLS:', JSON.stringify(polls, null, 2));
-    console.log('ERROR:', error);
+const { data: polls, error } = await supabase
+  .from('poll')
+  .select('poll_id, title, slug, poll_type, category')
+  .eq('user_id', user.id)
+
+console.log('POLLS:', JSON.stringify(polls, null, 2));
+console.log('ERROR:', JSON.stringify(error, null, 2));
 
   
   const pollIds = polls?.map(p => p.poll_id) ?? [];
