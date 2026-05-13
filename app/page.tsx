@@ -14,8 +14,8 @@ export default async function Home() {
       slug,
       poll_type,
       category,
-      poll_opt (
-        opt_id,
+      poll_opt 
+      (opt_id,
         title,
         vote_count
       )
