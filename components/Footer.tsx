@@ -20,8 +20,12 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Följ oss</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-blue-600 transition-colors">X</Link></li>
-              <li><Link href="#" className="hover:text-blue-600 transition-colors">TikTok</Link></li>
+              <li>
+                <Link href="https://x.com/Polla_SE" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">X</Link>
+              </li>
+              <li>
+                <Link href="https://www.tiktok.com/@polla_se" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">TikTok</Link>
+              </li>
               </ul>
           </div>
         </div>
