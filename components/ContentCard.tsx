@@ -192,7 +192,7 @@ export default function ContentCard({
             d="M4 12v.01M4 12a2 2 0 104 0m-4 0a2 2 0 014 0m10-6v.01M18 6a2 2 0 104 0m-4 0a2 2 0 014 0m0 12v.01M18 18a2 2 0 104 0m-4 0a2 2 0 014 0M8.7 13.3l6.6 3.4m0-9.4l-6.6 3.4"
             />
           </svg>
-          <span>Dela</span>
+          <span>Pusha</span>
         </button>
             </div>
            </div>
