@@ -134,7 +134,7 @@ export default function ContentCard({
                 ${
                   selectedOption && !isLoading
                     ? "bg-blue-500 text-white border-blue-500 cursor-pointer hover:bg-blue-600"
-                    : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+                    : "bg-gray-100 text-gray-400 border-gray-200"
                 }`}
               onClick={async () => {
                 if (!selectedOption || isLoading) return;
