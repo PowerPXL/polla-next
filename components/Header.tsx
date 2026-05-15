@@ -1,40 +1,46 @@
-'use server'; 
+'use server'
 
-import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
-import MobileHeader from "./MobileHeader";
-import SearchBar from "./SearchBar";
-import { Plus, CircleUser } from "lucide-react";
+import { createClient } from "@/lib/supabase/server"
+import Link from "next/link"
+import SearchBar from "./SearchBar"
+import { Plus, CircleUser } from "lucide-react"
 
 
-// Server‑action för att logga ut
 export async function signOut() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
+  const supabase = await createClient()
+  await supabase.auth.signOut()
 }
 
-
 export default async function Header() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   const { data: searchPolls } = await supabase
     .from('poll')
     .select('poll_id,title,slug,category')
     .eq('is_active', true)
-    .order('title');
+    .order('title')
 
   const userInitial = user?.user_metadata?.full_name?.[0]?.toUpperCase()
-    ?? user?.email?.[0]?.toUpperCase() ?? null;
-  const polls = searchPolls ?? [];
+    ?? user?.email?.[0]?.toUpperCase() ?? null
 
+  const polls = searchPolls ?? []
 
   return (
-    <header className="border-b border-zinc-200 relative bg-gray-50">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
+    <header className="border-b border-zinc-200 bg-gray-50">
 
-        {/* Logo */}
-        <div className="flex items-center gap-6 w-full">
+      {/* TOP RAD */}
+      <div className="mx-auto max-w-5xl flex items-center justify-between px-4 md:px-6 py-4 md:py-6">
+
+        {/* vänster: hamburger + logo */}
+        <div className="flex items-center gap-4">
+
+          {/* hamburger (mobil) */}
+          <button className="md:hidden">
+            ≡
+          </button>
+
+          {/* logo */}
           <div className="text-3xl font-bold tracking-tight">
             <Link href="/">
               <span className="text-[#374151]">Po</span>
@@ -44,35 +50,39 @@ export default async function Header() {
               <span className="text-gray-400 text-lg">se</span>
             </Link>
           </div>
-
-          <div className="hidden md:flex flex-1">
-            <SearchBar polls={polls} />
-          </div>
         </div>
 
+        {/* desktop search */}
+        <div className="hidden md:flex flex-1 px-6">
+          <SearchBar polls={polls} />
+        </div>
 
-        <nav className="hidden md:flex items-center gap-6 whitespace-nowrap">
-          <Link
-            href="/create"
-            className="flex items-center gap-1 hover:text-blue-600 transition-colors"
-          >
-            <Plus className="h-4 w-4 text-[#FBBC05]" />
-            Skapa
-          </Link>
+        {/* höger: nav */}
+        <nav className="flex items-center gap-4 md:gap-6">
 
-          <Link
-            href="/dataprotect"
-            className="hover:text-blue-600 transition-colors"
-          >
-            Dataskydd & GDPR
-          </Link>
+          {/* desktop-only länkar */}
+          <div className="hidden md:flex items-center gap-6">
 
+            <Link
+              href="/create"
+              className="flex items-center gap-1 hover:text-blue-600"
+            >
+              <Plus className="h-4 w-4 text-[#FBBC05]" />
+              Skapa
+            </Link>
+
+            <Link href="/dataprotect">
+              Dataskydd & GDPR
+            </Link>
+
+          </div>
+
+          {/* login / logout */}
           {userInitial ? (
-            // Logga ut‑knapp med server‑action INNANför formuläret
             <form action={signOut}>
               <button
                 type="submit"
-                className="text-sm font-medium px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
+                className="text-sm px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100"
               >
                 Logga ut
               </button>
@@ -80,18 +90,20 @@ export default async function Header() {
           ) : (
             <Link
               href="/login"
-              className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 hover:bg-gray-100"
             >
               <CircleUser className="h-4 w-4" />
               Logga in
             </Link>
           )}
         </nav>
-
-
-        <MobileHeader />
-
       </div>
+
+      {/* MOBIL SEARCH (under header) */}
+      <div className="md:hidden px-4 pb-4">
+        <SearchBar polls={polls} />
+      </div>
+
     </header>
-  );
+  )
 }
