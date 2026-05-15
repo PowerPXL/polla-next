@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
-import { Globe, Users } from 'lucide-react'
 import { vote, addComment } from './actions'
+import { Globe, Users, X } from 'lucide-react'
 
  
 type Option = {
@@ -213,50 +213,68 @@ export default function PollView({
           <DonutChart options={options} />
         </div>
         
-        {/* Dela */}
-<div className="pt-4 border-t border-gray-100">
-  <p className="text-xs text-gray-400 mb-2">Dela</p>
-  <div className="flex gap-2">
-      <a href={`https://twitter.com/intent/tweet?url=https://polla.se/poll/${poll.slug}&text=${encodeURIComponent(poll.title)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-xs font-medium hover:opacity-80 transition-opacity"
-    >
-      X
-      </a>
-        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=https://polla.se/poll/${poll.slug}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0A66C2] text-white text-xs font-medium hover:opacity-80 transition-opacity">
-        LinkedIn
-      </a>
-    
-      <a href={`https://www.facebook.com/sharer/sharer.php?u=https://polla.se/poll/${poll.slug}`}
-        target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1877F2] text-white text-xs font-medium hover:opacity-80 transition-opacity">
-      Facebook
-    </a>
-      <a href={`https://wa.me/?text=${encodeURIComponent(poll.title + ' https://polla.se/poll/' + poll.slug)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#25D366] text-white text-xs font-medium hover:opacity-80 transition-opacity">
-        WhatsApp
-    </a>
+      {/* Dela */}
+      <p>Dela i sociala medier</p>
+<div className="flex flex-wrap gap-3">
+
+  <a
+    href={`https://twitter.com/intent/tweet?url=https://polla.se/poll/${poll.slug}&text=${encodeURIComponent(poll.title)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 flex items-center justify-center rounded-full bg-black text-white hover:opacity-80"
+  >
+    <X className="w-4 h-4" />
+  </a>
+
+  <a
+    href={`https://www.linkedin.com/sharing/share-offsite/?url=https://polla.se/poll/${poll.slug}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 flex items-center justify-center rounded-full bg-[#0A66C2] text-white text-sm font-semibold hover:opacity-80"
+  >
+    in
+  </a>
+
+  <a
+    href={`https://www.facebook.com/sharer/sharer.php?u=https://polla.se/poll/${poll.slug}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1877F2] text-white text-sm font-semibold hover:opacity-80"
+  >
+    f
+  </a>
+
+  <a
+    href={`https://wa.me/?text=${encodeURIComponent(poll.title + ' https://polla.se/poll/' + poll.slug)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 flex items-center justify-center rounded-full bg-[#25D366] text-white text-xs font-bold hover:opacity-80"
+  >
+    WA
+  </a>
+
+</div>
+
+
+  {/* Kopiera */}
+  <div>
+    <p className="text-xs text-gray-400 mb-1">Kopiera länk och dela direkt</p>
+
     <button
       onClick={() => {
         navigator.clipboard.writeText(`https://polla.se/poll/${poll.slug}`)
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
       }}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 text-xs font-medium hover:bg-gray-200 transition-colors cursor-pointer"
+      className="w-full text-left px-3 py-2 rounded-lg bg-gray-100 text-sm text-gray-700 hover:bg-gray-200 transition break-all"
     >
-      {copied ? 'Kopierad!' : 'Kopiera länk'}
+      {copied
+        ? 'Kopierad!'
+        : `https://polla.se/poll/${poll.slug}`}
     </button>
-
-  </div>
+  
 </div>
-      </div>
+</div>
 
       {/* Kommentarer */}
       <div className="space-y-6">
