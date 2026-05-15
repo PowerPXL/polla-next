@@ -52,7 +52,7 @@ export default function SearchBar({ polls }: { polls: PollSearchItem[] }) {
             setIsOpen(true)
           }}
           onFocus={() => setIsOpen(true)}
-          onBlur={() => setTimeout(() => setIsOpen(false), 150)}
+          onBlur={() => setTimeout(() => setIsOpen(false), 500)}
           placeholder="Hej, vad vill du rösta om?"
           className="w-full rounded-2xl border border-gray-300 bg-white pl-4 pr-10 py-2 text-sm text-gray-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
         />
