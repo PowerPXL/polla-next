@@ -5,7 +5,6 @@ import Link from "next/link"
 import SearchBar from "./SearchBar"
 import { Plus, CircleUser } from "lucide-react"
 
-
 export async function signOut() {
   const supabase = await createClient()
   await supabase.auth.signOut()
@@ -30,39 +29,29 @@ export default async function Header() {
     <header className="border-b border-zinc-200 bg-gray-50">
 
       {/* TOP RAD */}
-      <div className="mx-auto max-w-5xl flex items-center justify-between px-4 md:px-6 py-4 md:py-6">
+      <div className="mx-auto max-w-5xl flex items-center justify-between px-4 md:px-6 py-4 md:py-6 relative">
 
-        {/* vänster: hamburger + logo */}
-        <div className="flex items-center gap-4">
-
-          {/* hamburger (mobil) */}
-          <button className="md:hidden">
-            ≡
-          </button>
-
-          {/* logo */}
-          <div className="text-3xl font-bold tracking-tight">
-            <Link href="/">
-              <span className="text-[#374151]">Po</span>
-              <span className="text-[#EA4335]">ll</span>
-              <span className="text-[#4285F4]">a</span>
-              <span className="text-[#FBBC05]">.</span>
-              <span className="text-gray-400 text-lg">se</span>
-            </Link>
-          </div>
+        {/* LOGO (centrerad på mobil) */}
+        <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 text-3xl font-bold tracking-tight">
+          <Link href="/">
+            <span className="text-[#374151]">Po</span>
+            <span className="text-[#EA4335]">ll</span>
+            <span className="text-[#4285F4]">a</span>
+            <span className="text-[#FBBC05]">.</span>
+            <span className="text-gray-400 text-lg">se</span>
+          </Link>
         </div>
 
-        {/* desktop search */}
+        {/* Desktop search */}
         <div className="hidden md:flex flex-1 px-6">
           <SearchBar polls={polls} />
         </div>
 
-        {/* höger: nav */}
-        <nav className="flex items-center gap-4 md:gap-6">
+        {/* Höger: login/logout */}
+        <nav className="flex items-center gap-4 md:gap-6 ml-auto">
 
-          {/* desktop-only länkar */}
+          {/* Desktop navigationslänkar */}
           <div className="hidden md:flex items-center gap-6">
-
             <Link
               href="/create"
               className="flex items-center gap-1 hover:text-blue-600"
@@ -71,13 +60,12 @@ export default async function Header() {
               Skapa
             </Link>
 
-            <Link href="/dataprotect">
+            <Link href="/dataprotect" className="hover:text-blue-600">
               Dataskydd & GDPR
             </Link>
-
           </div>
 
-          {/* login / logout */}
+          {/* login/logout */}
           {userInitial ? (
             <form action={signOut}>
               <button
@@ -99,9 +87,27 @@ export default async function Header() {
         </nav>
       </div>
 
-      {/* MOBIL SEARCH (under header) */}
+      {/* MOBIL SEARCH */}
       <div className="md:hidden px-4 pb-4">
         <SearchBar polls={polls} />
+      </div>
+
+      {/* MOBIL LÄNKAR */}
+      <div className="flex md:hidden px-4 pb-4 gap-6">
+        <Link
+          href="/create"
+          className="flex items-center gap-1 hover:text-blue-600"
+        >
+          <Plus className="h-4 w-4 text-[#FBBC05]" />
+          Skapa
+        </Link>
+
+        <Link
+          href="/dataprotect"
+          className="hover:text-blue-600"
+        >
+          Dataskydd & GDPR
+        </Link>
       </div>
 
     </header>
