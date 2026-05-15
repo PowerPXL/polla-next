@@ -14,11 +14,22 @@ export async function vote(pollId: number, optId: number, slug: string) {
     .eq('poll_id', pollId)
     .single()
 
-  // If poll requires authentication and user is not logged in, redirect to login
+  // If poll requires authentication and user is not logged in
   if (poll?.poll_type !== 'local' && !user) {
     return { redirect: `/login?poll=${pollId}&option=${optId}&slug=${slug}` }
   }
 
+  // ✅ BLOCKERA anonym dubbelröstning via cookie (NYTT)
+  if (!user && poll?.poll_type === 'local') {
+    const cookieStore = await cookies()
+    const existingVote = cookieStore.get(`voted_${pollId}`)
+
+    if (existingVote) {
+      return { error: 'already_voted' }
+    }
+  }
+
+  // ✅ Befintlig check för inloggade users
   if (user) {
     const { data: existing } = await supabase
       .from('poll_votes')
@@ -30,13 +41,14 @@ export async function vote(pollId: number, optId: number, slug: string) {
     if (existing) return { error: 'already_voted' }
   }
 
+  // Insert vote
   await supabase.from('poll_votes').insert({
     poll_id: pollId,
     opt_id: optId,
     user_id: user?.id ?? null,
   })
 
-  // Cookie for local polls
+  // ✅ Cookie för local polls
   if (!user && poll?.poll_type === 'local') {
     try {
       const cookieStore = await cookies()
