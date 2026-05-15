@@ -2,6 +2,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import ProfileBar from "@/components/ProfileBar"; 
 import Footer from "@/components/Footer";
+import InfoBanner from '@/components/InfoBanner'
 
 export const metadata = {
   title: {
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="sv">
       <body>
+        <InfoBanner />
         <div className="min-h-screen flex flex-col">
           <Header />
             <ProfileBar /> 
