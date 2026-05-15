@@ -1,8 +1,27 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
+
+useEffect(() => {
+  function handleClickOutside(event: MouseEvent | TouchEvent) {
+    if (
+      wrapperRef.current &&
+      !wrapperRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false)
+    }
+  }
+
+  document.addEventListener('mousedown', handleClickOutside)
+  document.addEventListener('touchstart', handleClickOutside)
+
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside)
+    document.removeEventListener('touchstart', handleClickOutside)
+  }
+}, [])
 
 type PollSearchItem = {
   poll_id: number
@@ -38,7 +57,7 @@ export default function SearchBar({ polls }: { polls: PollSearchItem[] }) {
   }, [normalizedQuery, polls])
 
   return (
-    <div className="relative w-full max-w-sm">
+    <div ref={wrapperRef} className="relative w-full max-w-sm">
       <label className="sr-only" htmlFor="poll-search">
         Sök omröstningar
       </label>
@@ -52,7 +71,6 @@ export default function SearchBar({ polls }: { polls: PollSearchItem[] }) {
             setIsOpen(true)
           }}
           onFocus={() => setIsOpen(true)}
-          onBlur={() => setTimeout(() => setIsOpen(false), 500)}
           placeholder="Hej, vad vill du rösta om?"
           className="w-full rounded-2xl border border-gray-300 bg-white pl-4 pr-10 py-2 text-sm text-gray-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
         />
