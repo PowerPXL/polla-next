@@ -48,7 +48,7 @@ const { data: comments } = await supabase
   }
 
   return (
-    <main className="mx-auto max-w-xl px-6 py-12">
+    <main className="mx-auto w-full max-w-5xl px-4 py-6">
       <PollView
         poll={poll}
         options={options ?? []}
