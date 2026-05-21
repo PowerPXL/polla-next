@@ -65,6 +65,11 @@ export default function ContentCard({
                         {item.category}
                       </Link>
                     ) : null}
+ {/* Röstantal — dyker upp till höger */}
+                      <span className="ml-auto flex items-center gap-1 text-[10px] text-gray-400">
+                      <Users className="h-3 w-3" aria-hidden="true" />
+                      {total.toLocaleString("sv-SE")} röster
+                      </span>
                   </div>
                 ) : null}
                 <div className="min-w-0">
@@ -75,8 +80,8 @@ export default function ContentCard({
                   </Link>
                 </div>
               </div>
-
-              <div className="space-y-1">
+{/*Svarsalternativ  */}
+              <div className="space-y-0">
                 {item.options.map((option) => {
                   const pct =
                     total > 0
