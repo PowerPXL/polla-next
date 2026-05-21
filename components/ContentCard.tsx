@@ -46,7 +46,7 @@ export default function ContentCard({
           return (
             <div
               key={item.id}
-              className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4"
+              className="bg-white border border-gray-200 p-6 space-y-4"
 
 >{/* Header */}
               <div className="space-y-2">
@@ -69,14 +69,14 @@ export default function ContentCard({
                 ) : null}
                 <div className="min-w-0">
                   <Link href={`/poll/${item.slug}`}>
-                    <h3 className="font-bold text-xl text-gray-900 leading-snug hover:text-blue-600 transition-colors cursor-pointer">
+                    <h3 className="font-bold text-s text-gray-900 leading-snug hover:text-blue-600 transition-colors cursor-pointer">
                       {item.title}
                     </h3>
                   </Link>
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {item.options.map((option) => {
                   const pct =
                     total > 0
@@ -96,15 +96,15 @@ export default function ContentCard({
                           }))
                         }
                         aria-pressed={isSelected}
-                        className={`w-full text-left p-3 rounded-xl border cursor-pointer transition-all duration-150
+                        className={`w-full text-left p-3 cursor-pointer transition-all duration-150
                           ${
                             isSelected
-                              ? "bg-blue-50 border-blue-300"
-                              : "bg-gray-50 border-gray-200"
+                              ? "bg-gray-100"
+                              : "bg-gray-80"   
                           }`}
                       >
                       <div className="flex justify-between items-baseline mb-1">
-                        <span className="font-medium text-gray-800 text-sm">
+                        <span className="font-medium text-gray-800 text-xs">
                           {option.text}
                         </span>
                         <span className="text-xs text-gray-400 ml-2 shrink-0">
@@ -130,11 +130,11 @@ export default function ContentCard({
               suppressHydrationWarning
               type="button"
               disabled={!selectedOption || isLoading}
-              className={`w-full p-3 rounded-xl border text-sm font-medium transition-all
+              className={`w-full p-1 text-xs transition-all
                 ${
                   selectedOption && !isLoading
-                    ? "bg-blue-500 text-white border-blue-500 cursor-pointer hover:bg-blue-600"
-                    : "bg-gray-100 text-gray-400 border-gray-200"
+                    ? "bg-blue-400 text-white border-blue-500 cursor-pointer hover:bg-blue-500"
+                    : "bg-gray-100 text-gray-200 border-gray-200"
                 }`}
               onClick={async () => {
                 if (!selectedOption || isLoading) return;
