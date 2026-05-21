@@ -21,6 +21,7 @@ export default async function Home() {
       )
     `)
     .eq("featured", true)
+    .order('total_votes', { ascending: false })
     .limit(12);
 
   // Get comment counts for each poll
