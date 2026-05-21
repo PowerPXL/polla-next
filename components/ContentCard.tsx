@@ -13,7 +13,7 @@ type PollOption = {
 type CardItem = {
   id: string;
   title: string;
-  slug: string;
+  slug: string; 
   poll_type: "local" | "global" | null;
   category: string | null;
   options: PollOption[];

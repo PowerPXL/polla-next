@@ -21,7 +21,7 @@ export default async function Home() {
       )
     `)
     .eq("featured", true)
-    .limit(3);
+    .limit(12);
 
   // Get comment counts for each poll
   const pollIds = polls?.map(p => p.poll_id) ?? [];
