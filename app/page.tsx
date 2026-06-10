@@ -52,7 +52,7 @@ export default async function Home() {
 
   return (
     <main className="container mx-auto max-w-6xl">
-      <ContentBlock title="Bestäm tillsammans. Skapa röstningar gratis - utan inlogg.">
+      <ContentBlock title="Kostnadsfritt och anonymt. Skapa omröstningar gratis utan inlogg">
         <div className="flex flex-col gap-3 text-sm text-gray-700">
           <div className="flex items-center gap-2">
             <Users className="h-4 w-4 text-gray-500" />
