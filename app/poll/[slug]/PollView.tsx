@@ -131,7 +131,27 @@ export default function PollView({
 }
 
   return (
-    <div className="space-y-8 max-w-3xl mx-auto">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Question',
+            name: poll.title,
+            text: poll.title,
+            answerCount: (options ?? []).length,
+            url: `https://www.polla.se/poll/${poll.slug}`,
+            suggestedAnswer: (options ?? []).map(o => ({
+              '@type': 'Answer',
+              text: o.title,
+              upvoteCount: o.vote_count,
+            })),
+          }),
+        }}
+      />
+
+      <div className="space-y-8 max-w-3xl mx-auto">
 
       {/* Poll-kort */}
       <div className="bg-white rounded-2xl border border-gray-200 p-8 space-y-6">
@@ -340,6 +360,7 @@ export default function PollView({
         </div>
       </div>
 
-    </div>
+      </div>
+    </>
   )
 }

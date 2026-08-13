@@ -6,10 +6,17 @@ import InfoBanner from '@/components/InfoBanner'
 
 export const metadata = {
   title: {
-    default: "Polla.se",
-    template: "%s | ",
+    default: "Polla.se – Skapa gratis omröstningar online utan inloggning",
+    template: "%s | Polla.se", 
   },
-  description: "Rösta och skapa omröstningar Gratis",
+  description:
+    "Skapa och dela omröstningar gratis på svenska. Ingen inloggning krävs – rösta anonymt och se resultatet direkt.",
+  openGraph: {
+    siteName: "Polla.se",
+    locale: "sv_SE",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({
