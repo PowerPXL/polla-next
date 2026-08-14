@@ -135,14 +135,8 @@ export default function ContentCard({
                       onClick={(e) => e.stopPropagation()}
                       className="flex items-center space-x-2 text-xs text-gray-500 p-1 -m-1 rounded cursor-pointer hover:text-gray-800"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M4 12v.01M4 12a2 2 0 104 0m-4 0a2 2 0 014 0m10-6v.01M18 6a2 2 0 104 0m-4 0a2 2 0 014 0m0 12v.01M18 18a2 2 0 104 0m-4 0a2 2 0 014 0M8.7 13.3l6.6 3.4m0-9.4l-6.6 3.4"
-                        />
-                      </svg>
-                      <span>Pusha</span>
+                     
+                      
                     </button>
 
                     {/* Pil in till Pollview */}
