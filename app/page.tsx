@@ -55,12 +55,12 @@ export default async function Home() {
       <ContentBlock title="Kostnadsfritt och anonymt. Skapa omröstningar gratis utan inlogg">
         <div className="flex flex-col gap-3 text-sm text-gray-700">
           <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-gray-500" />
+            <Users className="h-6 w-6 text-gray-500" />
             <span className="font-semibold">Lokal</span>
-            <span>Ingen inloggning.</span>
+            <span>Ingen inloggning krävs.</span>
           </div>
           <div className="flex items-center gap-2">
-            <Globe className="h-4 w-4 text-yellow-500" />
+            <Globe className="h-6 w-6 text-yellow-500" />
             <span className="font-semibold">Global</span>
             <span>Offentliga omröstningar som kräver inloggning.</span>
           </div>
