@@ -33,12 +33,12 @@ export default function ContentCard({
     <section className="space-y-6">
       <h2 className="text-2xl font-bold text-gray-900">{blockTitle}</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 items-start">
         {items.map((item) => {
           // Totalen räknas på ALLA alternativ, inte bara de två som visas
           const total = item.options.reduce((sum, o) => sum + o.votes, 0);
 
-          // Sortera störst först och visa bara topp 2
+          // Sortera störst först topp 2
           const topOptions = [...item.options]
             .sort((a, b) => b.votes - a.votes)
             .slice(0, 2);
@@ -49,7 +49,7 @@ export default function ContentCard({
             <div
               key={item.id}
               onClick={() => router.push(`/poll/${item.slug}`)}
-              className="group relative bg-white border border-gray-200 p-4 space-y-4 cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md hover:-translate-y-0.5"
+              className="group relative bg-white border border-gray-200 p-4 space-y-2 cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md"
             >
               {/* Header */}
               <div className="space-y-2">
@@ -76,17 +76,18 @@ export default function ContentCard({
                     </span>
                   </div>
                 ) : null}
-
-                <div className="min-w-0">
+                    {/* Titel */}
+                <div className="h-full flex flex-col">
                   <Link href={`/poll/${item.slug}`} onClick={(e) => e.stopPropagation()}>
-                    <h3 className="font-bold text-s text-gray-900 leading-snug group-hover:underline transition-colors">
-                      {item.title}
-                    </h3>
+                  <h3 className="text-base font-semibold leading-snug line-clamp-3 min-h-[4.5rem]">
+                    {item.title}
+                  </h3>
+
                   </Link>
                 </div>
               </div>
 
-              {/* Svarsalternativ – klick går vidare till Pollview */}
+              {/* Svarsalternativ –*/}
               <div className="space-y-0">
                 {topOptions.map((option) => {
                   const pct = total > 0 ? Math.round((option.votes / total) * 100) : 0;
@@ -99,15 +100,8 @@ export default function ContentCard({
                       className="block w-full text-left p-3 transition-colors duration-150 hover:bg-gray-100"
                     >
                       <div className="flex justify-between items-baseline mb-1">
-                        <span className="font-medium text-gray-800 text-xs">{option.text}</span>
-                        <span className="text-xs text-gray-400 ml-2 shrink-0">{pct}%</span>
-                      </div>
-
-                      <div className="w-full bg-gray-100 rounded-full h-1.5">
-                        <div
-                          className="h-1.5 rounded-full bg-gray-400 transition-all duration-500 group-hover:bg-blue-500"
-                          style={{ width: `${pct}%` }}
-                        />
+                        <span className="text-xs font-bold text-gray-900">{option.text}</span>
+                        <span className="text-xs font-bold text-gray-800 ml-2 shrink-0">{pct}%</span>
                       </div>
                     </Link>
                   );
@@ -120,37 +114,36 @@ export default function ContentCard({
                 ) : null}
               </div>
 
-              {/* Footer – visas endast vid hover */}
-              <div className="pt-4 border-t border-gray-100 opacity-0 max-h-0 overflow-hidden transition-all duration-200 group-hover:opacity-100 group-hover:max-h-24">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 text-sm text-gray-500">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" />
-                    </svg>
-                    <span>{item.commentsCount} kommentarer</span>
-                  </div>
+              {/* Footer – hover */}
+<div className="absolute left-0 right-0 bottom-0 bg-white border-t border-gray-100 opacity-0 max-h-0 overflow-hidden transition-all duration-200 group-hover:opacity-100 group-hover:max-h-24 z-10">
+  <div className="flex items-center justify-between px-4 pb-4 pt-2">
+    <div className="flex items-center space-x-2 text-sm text-gray-500">
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" />
+      </svg>
+      <span>{item.commentsCount} kommentarer</span>
+    </div>
 
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center space-x-2 text-xs text-gray-500 p-1 -m-1 rounded cursor-pointer hover:text-gray-800"
-                    >
-                     
-                      
-                    </button>
+    <div className="flex items-center gap-3">
+      <button
+        onClick={(e) => e.stopPropagation()}
+        className="flex items-center space-x-2 text-xs text-gray-500 p-1 -m-1 rounded cursor-pointer hover:text-gray-800"
+      >
+        {/* dela-knapp här */}
+      </button>
 
-                    {/* Pil in till Pollview */}
-                    <Link
-                      href={`/poll/${item.slug}`}
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="Öppna omröstning"
-                      className="flex items-center text-gray-500 hover:text-blue-600"
-                    >
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
+      <Link
+        href={`/poll/${item.slug}`}
+        onClick={(e) => e.stopPropagation()}
+        aria-label="Öppna omröstning"
+        className="flex items-center text-gray-500 hover:text-blue-600"
+      >
+        <ArrowRight className="h-4 w-4" />
+      </Link>
+    </div>
+  </div>
+</div>
+
             </div>
           );
         })}
