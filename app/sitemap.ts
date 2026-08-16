@@ -23,7 +23,7 @@ if (error) {
 const pollUrls = (polls ?? []).map(p => ({
   url: `${BASE}/poll/${p.slug}`,
   lastModified: new Date(p.created_at),
-  changeFrequency: 'daily' as const,
+  changeFrequency: 'weekly' as const,
   priority: 0.8,
 }))
 
