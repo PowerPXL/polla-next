@@ -49,7 +49,7 @@ export default function ContentCard({
             <div
               key={item.id}
               onClick={() => router.push(`/poll/${item.slug}`)}
-              className="group relative bg-white border border-gray-200 p-4 space-y-2 cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md"
+              className="group relative bg-white border border-gray-200 rounded-xl p-4 space-y-2 cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md"
             >
               {/* Header */}
               <div className="space-y-2">

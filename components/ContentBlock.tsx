@@ -8,9 +8,9 @@ export default function ContentBlock({
   children: React.ReactNode;
 }) {
   return (
-    <section className="bg-white-100 rounded-2xl border border-gray-300 p-6 my-8">
+    <section className="bg-white-100 p-6 my-8">
       
-      <h2 className="text-4xl font-bold mb-2">
+      <h2 className="text-6xl font-bold mb-2">
         {title}
       </h2>
 

@@ -62,7 +62,7 @@ export default async function Home() {
           <div className="flex items-center gap-2">
             <Globe className="h-6 w-6 text-yellow-500" />
             <span className="font-semibold">Global</span>
-            <span>Offentliga omröstningar som kräver inloggning.</span>
+            <span>Offentliga omröstningar med vanlig mail-inloggning.</span>
           </div>
         </div>
       </ContentBlock>
