@@ -11,9 +11,10 @@ const inter = Inter({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://www.polla.se"),
   title: {
     default: "Polla.se – Skapa gratis omröstningar online utan inloggning",
-    template: "%s | Polla.se", 
+    template: "%s | Polla.se",
   },
   description:
     "Skapa och dela omröstningar gratis på svenska. Ingen inloggning krävs – rösta anonymt och se resultatet direkt.",
@@ -24,6 +25,7 @@ export const metadata = {
   },
   twitter: { card: "summary_large_image" },
 };
+
 
 export default function RootLayout({
   children,

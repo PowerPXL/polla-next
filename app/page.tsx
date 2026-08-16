@@ -2,6 +2,13 @@ import { createClient } from "@/lib/supabase/server";
 import { Globe, Users } from "lucide-react";
 import ContentCard from "@/components/ContentCard";
 import ContentBlock from "@/components/ContentBlock";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.polla.se/",
+  },
+};
 
 export default async function Home() {
   const supabase = await createClient();
