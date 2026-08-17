@@ -51,41 +51,54 @@ export default function ContentCard({
               onClick={() => router.push(`/poll/${item.slug}`)}
               className="group relative bg-white border border-gray-200 rounded-xl p-4 space-y-2 cursor-pointer transition-all duration-200 hover:border-gray-300 hover:shadow-md"
             >
-              {/* Header */}
-              <div className="space-y-2">
-                {item.poll_type || item.category ? (
-                  <div className="flex items-center gap-1">
-                    {item.category ? (
-                      <Link
-                        href={`/category/${item.category.toLowerCase()}`}
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-700 transition-colors hover:bg-gray-200"
-                      >
-                        {item.category}
-                      </Link>
-                    ) : null}
+{/* Header */}
+<div className="space-y-2">
+  {item.poll_type || item.category ? (
+    <div className="flex items-center gap-1">
+      {/* LIVE-indikator */}
+      {item.category ? (
+        <span className="inline-flex items-center gap-1 rounded-full text-[8px] font-semibold text-red-600">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red-600"></span>
+          </span>
+          LIVE
+        </span>
+      ) : null}
 
-                    {/* Röstantal */}
-                    <span className="ml-auto flex items-center gap-1 text-[10px] text-gray-400">
-                      {item.poll_type === "global" ? (
-                        <Globe className="h-3 w-3 text-yellow-500" aria-label="Global" />
-                      ) : item.poll_type === "local" ? (
-                        <Users className="h-3 w-3 text-gray-500" aria-label="Lokal" />
-                      ) : null}
-                      {total.toLocaleString("sv-SE")} röster
-                    </span>
-                  </div>
-                ) : null}
-                    {/* Titel */}
-                <div className="h-full flex flex-col">
-                  <Link href={`/poll/${item.slug}`} onClick={(e) => e.stopPropagation()}>
-                  <h3 className="text-base font-semibold leading-snug line-clamp-3 min-h-[4.5rem]">
-                    {item.title}
-                  </h3>
+      {/* Kategori */}
+      {item.category ? (
+        <Link
+          href={`/category/${item.category.toLowerCase()}`}
+          onClick={(e) => e.stopPropagation()}
+          className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-700 transition-colors hover:bg-gray-200"
+        >
+          {item.category}
+        </Link>
+      ) : null}
 
-                  </Link>
-                </div>
-              </div>
+      {/* Röstantal */}
+      <span className="ml-auto flex items-center gap-1 text-[10px] text-gray-400">
+        {item.poll_type === "global" ? (
+          <Globe className="h-3 w-3 text-yellow-500" aria-label="Global" />
+        ) : item.poll_type === "local" ? (
+          <Users className="h-3 w-3 text-gray-500" aria-label="Lokal" />
+        ) : null}
+        {total.toLocaleString("sv-SE")} röster
+      </span>
+    </div>
+  ) : null}
+
+  {/* Titel */}
+  <div className="h-full flex flex-col">
+    <Link href={`/poll/${item.slug}`} onClick={(e) => e.stopPropagation()}>
+      <h3 className="text-base font-semibold leading-snug line-clamp-3 min-h-[4.5rem]">
+        {item.title}
+      </h3>
+    </Link>
+  </div>
+</div>
+
 
               {/* Svarsalternativ –*/}
               <div className="space-y-0">
