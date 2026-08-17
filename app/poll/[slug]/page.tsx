@@ -14,7 +14,7 @@ export async function generateMetadata(
 
   const { data: poll } = await supabase
     .from('poll')
-    .select('title, slug, category, total_votes')
+    .select('poll_id, title, slug, category, total_votes')
     .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle()
@@ -29,7 +29,7 @@ export async function generateMetadata(
     .limit(4)
 
   const alts = (options ?? []).map(o => o.title).join(', ')
-  const url = `https://www.polla.se/poll/${poll.slug}`
+    const url = `https://polla.se/poll/${poll.slug}`
 
   const description = alts
     ? `${poll.title} Rösta på ${alts}. ${poll.total_votes} personer har redan röstat – se resultatet direkt.`

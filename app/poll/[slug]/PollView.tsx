@@ -141,7 +141,7 @@ export default function PollView({
             name: poll.title,
             text: poll.title,
             answerCount: (options ?? []).length,
-            url: `https://www.polla.se/poll/${poll.slug}`,
+            url: `https://polla.se/poll/${poll.slug}`,
             suggestedAnswer: (options ?? []).map(o => ({
               '@type': 'Answer',
               text: o.title,
