@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: "https://www.polla.se/",
+    canonical: "https://polla.se/",
   },
 };
 
