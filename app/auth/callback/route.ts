@@ -26,5 +26,5 @@ export async function GET(request: Request) {
 export async function POST() {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  return NextResponse.redirect("https://www.polla.se/");
+  return NextResponse.redirect("https://polla.se/");
 }
