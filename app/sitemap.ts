@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
 
-const BASE = 'https://www.polla.se'
+const BASE = 'https://polla.se/'
 
 export const revalidate = 3600
 
