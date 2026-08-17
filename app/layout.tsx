@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://www.polla.se"),
+  metadataBase: new URL("https://polla.se"),
   title: {
     default: "Polla.se – Skapa gratis omröstningar online utan inloggning",
     template: "%s | Polla.se",
